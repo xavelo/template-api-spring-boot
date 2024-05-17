@@ -75,9 +75,10 @@ jobs:
         if [ -f "/home/runner/.kube/config" ]; then
           echo "kubeconfig file exists."
         else
-          echo "kubeconfig file does not exist."
+          echo "creating kubeconfig file."
+          touch $HOME/.kube/config
         fi
-        
+
     - name: Set up Kubeconfig
       run: |
         echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
