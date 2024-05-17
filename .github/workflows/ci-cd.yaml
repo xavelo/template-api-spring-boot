@@ -77,7 +77,11 @@ jobs:
         else
           echo "creating kubeconfig file."
           if [ -f "/home/runner/.kube" ]; then
+           echo "creating .kube"
            mkdir -p /home/runner/.kube
+          else
+            echo ".kube exists"
+            ls -lt /home/runner/
           fi          
           touch $HOME/.kube/config
         fi
