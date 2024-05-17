@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  songquotes:
+    image: xavelo/hello-world-k3s:0.0.1
+    container_name: hello-world-k3s
+    ports:
+      - '8080:8080'
+
