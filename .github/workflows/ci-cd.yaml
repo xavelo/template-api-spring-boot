@@ -70,21 +70,11 @@ jobs:
       with:
         version: v1.21.0
 
-    - name: Check if kubeconfig file exists
-      run: |
-        if [ -f "/home/runner/.kube/config" ]; then
-          echo "kubeconfig file exists."
-        else
-          echo "creating kubeconfig file."
-#          if [ -f "/home/runner/.kube" ]; then
-#           echo "creating .kube"
-          mkdir -p /home/runner/.kube
-#          else
-#            echo ".kube exists"          
-          ls -lta /home/runner/
-#          fi          
-          touch $HOME/.kube/config
-        fi
+    - name: Create .kube/config file
+      run: |        
+        mkdir -p /home/runner/.kube
+        cd .kube            
+        touch config
 
     - name: Set up Kubeconfig
       run: |
