@@ -81,7 +81,7 @@ jobs:
            mkdir -p /home/runner/.kube
           else
             echo ".kube exists"
-            ls -lt /home/runner/
+            ls -lta /home/runner/
           fi          
           touch $HOME/.kube/config
         fi
