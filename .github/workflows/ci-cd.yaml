@@ -73,8 +73,16 @@ jobs:
     - name: Set up Kubeconfig
       run: |
         echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-        cat $HOME/.kube/config
-        chmod 600 $HOME/.kube/config
+#        cat $HOME/.kube/config
+#        chmod 600 $HOME/.kube/config
+
+    - name: Check if kubeconfig file exists
+      run: |
+        if [ -f "/home/runner/.kube/config" ]; then
+          echo "kubeconfig file exists."
+        else
+          echo "kubeconfig file does not exist."
+        fi
 
     - name: Install Helm
       uses: azure/setup-helm@v1
