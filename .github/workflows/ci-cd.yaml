@@ -13,11 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up JDK 17
+    - name: Set up JDK 17 for ARM64
       uses: actions/setup-java@v3
       with:
         java-version: '17'
-        distribution: 'temurin'
+        distribution: 'adopt'
+        architecture: 'arm64'
 
     - name: Cache Maven packages
       uses: actions/cache@v3
@@ -72,16 +73,14 @@ jobs:
 
     - name: Create .kube/config file
       run: |        
-        mkdir -p /home/runner/.kube
-        pwd
+        mkdir -p /home/runner/.kube        
         cd /home/runner/.kube            
         touch config
 
     - name: Set up Kubeconfig
       run: |
         echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-#        cat $HOME/.kube/config
-#        chmod 600 $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
 
     - name: Install Helm
       uses: azure/setup-helm@v1
