@@ -1,4 +1,4 @@
-FROM adoptopenjdk:17-jre-hotspot
+FROM openjdk:17
 WORKDIR /app
 COPY target/*.jar /app/myapp.jar
 EXPOSE 8080
