@@ -76,6 +76,9 @@ jobs:
           echo "kubeconfig file exists."
         else
           echo "creating kubeconfig file."
+          if [ -f "/home/runner/.kube" ]; then
+           mkdir -p /home/runner/.kube
+          fi          
           touch $HOME/.kube/config
         fi
 
