@@ -73,7 +73,8 @@ jobs:
     - name: Create .kube/config file
       run: |        
         mkdir -p /home/runner/.kube
-        cd .kube            
+        pwd
+        cd /home/runner/kube            
         touch config
 
     - name: Set up Kubeconfig
