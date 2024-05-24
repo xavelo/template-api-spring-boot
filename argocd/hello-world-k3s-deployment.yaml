@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-k3s-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world-k3s
+  template:
+    metadata:
+      labels:
+        app: hello-world-k3s
+    spec:
+      containers:
+        - name: hello-world-k3s
+          image: xavelo/hello-world-k3s:latest
+          ports:
+            - containerPort: 80
