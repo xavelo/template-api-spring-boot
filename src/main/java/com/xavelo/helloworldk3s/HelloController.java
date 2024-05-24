@@ -20,9 +20,11 @@ public class HelloController {
     @GetMapping("/hello")
     public String hello() {
         String commitId = env.getProperty("git.commit.id");
+        String buildId = env.getProperty("git.build.id");
+
         requests += 1;
-        System.out.println("/hello from " + podName + " - " + requests);
-        return "Hello world ArgoCD from " + podName + " - commitId " + commitId;
+        System.out.println("/hello from " + podName + " - " + requests + " - commitId " + commitId + " - buildId " + buildId);
+        return "Hello world ArgoCD from " + podName + " - commitId " + commitId + " - buildId " + buildId;
     }
 
     @GetMapping("/test")
