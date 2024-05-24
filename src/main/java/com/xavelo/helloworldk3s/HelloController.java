@@ -23,8 +23,8 @@ public class HelloController {
         String buildId = env.getProperty("git.build.id");
 
         requests += 1;
-        System.out.println("/hello from " + podName + " - " + requests + " - commitId " + commitId + " - buildId " + buildId);
-        return "Hello world ArgoCD from " + podName + " - commitId " + commitId + " - buildId " + buildId;
+        System.out.println("/hello from " + podName);
+        return "Hello world ArgoCD from " + podName;
     }
 
     @GetMapping("/test")
