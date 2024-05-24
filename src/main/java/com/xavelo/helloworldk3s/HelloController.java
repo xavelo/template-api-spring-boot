@@ -12,7 +12,7 @@ public class HelloController {
     public String hello() {
         requests += 1;
         System.out.println("/hello - " + requests);
-        return "Hello world ArgoCD!!";
+        return "Hello world ArgoCD goooo!!";
     }
 
     @GetMapping("/test")
