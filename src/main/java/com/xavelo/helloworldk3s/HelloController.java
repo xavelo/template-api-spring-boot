@@ -12,12 +12,12 @@ public class HelloController {
     public String hello() {
         requests += 1;
         System.out.println("/hello - " + requests);
-        return "Hellooooooooooooo world!";
+        return "Hello world ArgoCD!!";
     }
 
     @GetMapping("/test")
     public String test() {
-        return "testtttt";
+        return "testingggg";
     }
 }
 
