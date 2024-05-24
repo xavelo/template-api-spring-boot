@@ -1,10 +1,14 @@
 package com.xavelo.helloworldk3s;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloController {
+
+    @Value("${HOSTNAME:unknown}")
+    private String podName;
 
     int requests = 0;
 
@@ -12,7 +16,7 @@ public class HelloController {
     public String hello() {
         requests += 1;
         System.out.println("/hello - " + requests);
-        return "Hello world ArgoCD goooo!!";
+        return "Hello world ArgoCD from " + podName;
     }
 
     @GetMapping("/test")
