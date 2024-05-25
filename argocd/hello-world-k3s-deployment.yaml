@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-world-k3s-deployment
-  commit_id: dfdfdfdsf
-  timestamp: '2024-05-25T19:56:30+0200'
 spec:
   replicas: 5
   selector:
