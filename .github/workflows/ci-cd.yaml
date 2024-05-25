@@ -40,11 +40,11 @@ jobs:
 
     - name: Commit and Push changes
       env:
-        GHA_TOKEN: ${{ secrets.GHA_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
         git add .
         git commit -m "Add commit SHA to COMMIT_SHA.txt"
-        git remote set-url origin https://x-access-token:${GHA_TOKEN}@github.com/${{ github.repository }}.git
+        git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
         git push origin HEAD:${{ github.ref }}
 
     - name: Build with Maven
