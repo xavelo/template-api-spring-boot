@@ -40,7 +40,7 @@ jobs:
 
     - name: Update Kubernetes Manifests
       run: |
-        timestamp=$(date +%s)
+        timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
         echo "Timestamp: ${timestamp}"  # Print the timestamp
         yq e -i '.metadata.annotations.timestamp = "'"$timestamp"'"' argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml  # Verify the changes
