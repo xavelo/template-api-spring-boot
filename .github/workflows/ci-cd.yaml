@@ -33,6 +33,11 @@ jobs:
         sed -i "s/commitID:.*$/commitID: \"${COMMIT_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml
 
+    - name: Set up Git user
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
     - name: Commit changes
       run: |
         git config user.email "xavelo@gmail.com"
