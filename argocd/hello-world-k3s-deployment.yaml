@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-world-k3s-deployment
+  annotations:
+    timestamp: "0"
 spec:
   replicas: 3
   selector:
