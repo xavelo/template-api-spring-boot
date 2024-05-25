@@ -35,18 +35,16 @@ jobs:
 
     - name: Set up Git user
       run: |
-        git config --global user.name "xavelo"
-        git config --global user.email "xavelo@gmail.com"
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
     - name: Commit and Push changes
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GHA_TOKEN: ${{ secrets.GHA_TOKEN }}
       run: |
-        git config user.email "xavelo@gmail.com"
-        git config user.name "xavelo"
         git add .
         git commit -m "Add commit SHA to COMMIT_SHA.txt"
-        git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
+        git remote set-url origin https://x-access-token:${GHA_TOKEN}@github.com/${{ github.repository }}.git
         git push origin HEAD:${{ github.ref }}
 
     - name: Build with Maven
