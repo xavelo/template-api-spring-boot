@@ -24,7 +24,7 @@ public class HelloController {
 
         requests += 1;
         System.out.println("/hellooooooooo from " + podName);
-        return "Hellooooooooooo world ArgoCD from " + podName;
+        return "xxxxxxxxxxxx world ArgoCD from " + podName;
     }
 
 }
