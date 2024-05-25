@@ -5,7 +5,7 @@ metadata:
   annotations:
     timestamp: "0"
 spec:
-  replicas: 13
+  replicas: 3
   selector:
     matchLabels:
       app: hello-world-k3s
