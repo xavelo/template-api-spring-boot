@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-world-k3s-deployment
   annotations:
-    timestamp: 123
+    timestamp: ""
 spec:
   replicas: 3
   selector:
