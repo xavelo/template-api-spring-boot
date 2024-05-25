@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-world-k3s-deployment
   annotations:
-    commitID: "976f47186f39ff4b05993e38cf32ccdb4a089d04"
+    commitID: "d1dbf4f61b881b1ee1827d735a3c32c33696e39b"
 spec:
   replicas: 2
   selector:
