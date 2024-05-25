@@ -28,13 +28,15 @@ jobs:
           ${{ runner.os }}-maven-
 
     - name: Update Kubernetes manifest with commit SHA
-      run: |
+      run: | 
         echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
         sed -i "s/commitID:.*$/commitID: \"${COMMIT_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml
 
     - name: Commit changes
       run: |
+        git config user.email "xavelo@gmail.com"
+        git config user.name "xavelo"
         git add .
         git commit -m "Add commit SHA to COMMIT_SHA.txt"
 
