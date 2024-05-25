@@ -24,7 +24,7 @@ public class HelloController {
 
         requests += 1;
         System.out.println("/hello from " + podName);
-        return "Hola world ArgoCD from " + podName;
+        return "Hooooooooooooooooooola world ArgoCD from " + podName;
     }
 
     @GetMapping("/test")
