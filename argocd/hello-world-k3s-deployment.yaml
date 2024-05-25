@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-world-k3s-deployment
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app: hello-world-k3s
