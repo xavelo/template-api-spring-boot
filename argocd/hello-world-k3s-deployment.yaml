@@ -5,7 +5,7 @@ metadata:
   commit_id: dfdfdfdsf
   timestamp: '2024-05-25T19:56:30+0200'
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: hello-world-k3s
