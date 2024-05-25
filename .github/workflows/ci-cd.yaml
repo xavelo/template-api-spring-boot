@@ -30,8 +30,8 @@ jobs:
 
     - name: Update Kubernetes manifest with commit SHA
       run: | 
-        echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
-        sed -i "s/commitID:.*$/commitID: \"${COMMIT_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
+        echo "GITHUB_SHA=${GITHUB_SHA}"
+        sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml
 
     - name: Commit and Push changes
