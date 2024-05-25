@@ -25,8 +25,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "xavelo"
+        git config --global user.email "xavelo@gmail.com"
         git add argocd/hello-world-k3s-deployment.yaml
         git commit -m "Update timestamp in manifest"
         git push
