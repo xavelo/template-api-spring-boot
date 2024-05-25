@@ -42,10 +42,10 @@ jobs:
 
     - name: Push changes
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-          git push origin HEAD:${{ github.ref }}
-
+        git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
+        git push origin HEAD:${{ github.ref }}
 
     - name: Build with Maven
       run: mvn clean package
