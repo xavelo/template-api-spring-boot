@@ -41,7 +41,7 @@ jobs:
     - name: Update Kubernetes Manifests
       run: |
         timestamp=$(date +%s)
-        yq eval '.metadata.annotations.timestamp = $(date +%s)' -i argocd/hello-world-k3s-deployment.yaml
+        yq eval '.metadata.annotations.timestamp = strenv(timestamp)' -i argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml  # Verify the changes
 
 #    - name: Cache Docker layers
