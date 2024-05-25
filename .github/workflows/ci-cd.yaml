@@ -37,8 +37,8 @@ jobs:
       run: |
         git config --global user.name 'xavelo'
         git config --global user.email 'xavelo@users.noreply.github.com'
-        git checkout "${GITHUB_REF:11}"
-        git commit -am "Add commit SHA to COMMIT_SHA.txt"
+        git add .
+        git commit -m "Add commit SHA to COMMIT_SHA.txt"
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         git push
 
