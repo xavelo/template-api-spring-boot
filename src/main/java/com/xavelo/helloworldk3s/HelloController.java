@@ -24,7 +24,7 @@ public class HelloController {
 
         requests += 1;
         System.out.println("/test from " + podName);
-        return "test world ArgoCD from " + podName;
+        return "test world ArgoCD from " + podName + " ==> commitID " + commitId + " - buildID " + buildId;
     }
 
 }
