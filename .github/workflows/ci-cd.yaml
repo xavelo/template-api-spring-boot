@@ -42,7 +42,7 @@ jobs:
       run: |
         timestamp=$(date +%s)
         echo "Timestamp: ${timestamp}"  # Print the timestamp
-        yq eval '.metadata.annotations.timestamp = \"$timestamp\"' -i argocd/hello-world-k3s-deployment.yaml
+        yq eval '.metadata.annotations.timestamp = \"${timestamp}\"' -i argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml  # Verify the changes
 
 #    - name: Cache Docker layers
