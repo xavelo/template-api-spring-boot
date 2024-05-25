@@ -1,6 +1,7 @@
 package com.xavelo.helloworldk3s;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.info.GitProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.core.env.Environment;
 public class HelloController {
 
     @Autowired
-    private Environment env;
+    private GitProperties gitProperties;
 
     @Value("${HOSTNAME:unknown}")
     private String podName;
@@ -19,12 +20,12 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        String commitId = env.getProperty("git.commit.id");
-        String buildId = env.getProperty("git.build.id");
+        String commitId = gitProperties.getShortCommitId();
+        String branch = gitProperties.getBranch();
 
         requests += 1;
-        System.out.println("/test from " + podName);
-        return "test world ArgoCD from " + podName + " ==> commitID " + commitId + " - buildID " + buildId;
+        System.out.println("/test from " + podName + " - " + commitId + " - " + branch);
+        return "test world ArgoCD from " + podName + " ==> commitID " + commitId + " - branch " + branch;
     }
 
 }
