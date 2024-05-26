@@ -36,11 +36,10 @@ jobs:
     - name: Update Kubernetes manifest with Commit ID and Version Tag
       run: |
         echo ${GITHUB_SHA}
-        echo "TAG=${GITHUB_SHA}" >> $GITHUB_ENV
-        echo ${{ env.TAG }}
-        sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
         export TAG=${GITHUB_SHA}
-        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${TAG}"' -i argocd/hello-world-k3s-deployment.yaml
+        echo ${{ TAG }}
+        sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
+        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${{ TAG }}"' -i argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml
 
     - name: Commit and Push changes
