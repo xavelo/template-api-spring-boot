@@ -15,7 +15,7 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        String commitId = "ccc";
+        String commitId = "ddd";
         String branch = "master";
 
         requests += 1;
