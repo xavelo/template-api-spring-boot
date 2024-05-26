@@ -15,16 +15,12 @@ public class HelloController {
     @Autowired
     private GitProperties gitProperties;
 
-    int requests = 0;
-
     @GetMapping("/hello")
-    public String hello() {
+    public Hello hello() {
         String commitId = gitProperties.getCommitId();
         String branch = gitProperties.getBranch();
-
-        requests += 1;
-        System.out.println("/test 0.1.0 from " + podName + " - " + commitId + " - " + branch);
-        return "version " + commitId + " - pod " + podName + " ==> commitID " + commitId + " - " + branch;
+        System.out.println(commitId + "-" + podName);
+        return new Hello("hello from pod " + podName, commitId);
     }
 
 }
