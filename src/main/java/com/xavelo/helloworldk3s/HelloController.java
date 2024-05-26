@@ -19,8 +19,8 @@ public class HelloController {
         String branch = "master";
 
         requests += 1;
-        System.out.println("/test 0.0.3 from " + podName + " - " + commitId + " - " + branch);
-        return "0.0.3 test world ArgoCD from " + podName + " ==> commitID " + commitId + " - branch " + branch;
+        System.out.println("/test 0.1.0 from " + podName + " - " + commitId + " - " + branch);
+        return "0.1.0 test world ArgoCD from " + podName + " ==> commitID " + commitId + " - branch " + branch;
     }
 
 }

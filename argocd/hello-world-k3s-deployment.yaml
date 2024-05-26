@@ -21,6 +21,6 @@ spec:
     spec:
       containers:
         - name: hello-world-k3s
-          image: xavelo/hello-world-k3s:0.0.5
+          image: xavelo/hello-world-k3s:tag
           ports:
             - containerPort: 80
