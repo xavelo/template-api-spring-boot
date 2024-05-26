@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      TAG: '0.1.1'
+      TAG: ${GITHUB_SHA}
 
     steps:
     - name: Checkout code
@@ -35,16 +35,11 @@ jobs:
         sudo wget https://github.com/mikefarah/yq/releases/download/v4.13.4/yq_linux_amd64 -O /usr/bin/yq
         sudo chmod +x /usr/bin/yq
 
-    - name: Update Version Tag
-      run: |
-        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${{GITHUB_SHA}}"' -i argocd/hello-world-k3s-deployment.yaml
-        cat argocd/hello-world-k3s-deployment.yaml
-
-    - name: Update CommitID
+    - name: Update Kubernetes manifest with Commit ID and Version Tag
       run: |
         sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
-#        sed -i "s/tag/${{ env.TAG }}/g" argocd/hello-world-k3s-deployment.yaml
-#        cat argocd/hello-world-k3s-deployment.yaml
+        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${{ env.TAG }}"' -i argocd/hello-world-k3s-deployment.yaml
+        cat argocd/hello-world-k3s-deployment.yaml
 
     - name: Commit and Push changes
       env:
