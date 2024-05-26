@@ -28,22 +28,22 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-    - name: Update Kubernetes manifest with commit SHA
-      run: | 
-        echo "GITHUB_SHA=${GITHUB_SHA}"
-        sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
-        cat argocd/hello-world-k3s-deployment.yaml
+#    - name: Update Kubernetes manifest with commit SHA
+#      run: |
+#        echo "GITHUB_SHA=${GITHUB_SHA}"
+#        sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
+#        cat argocd/hello-world-k3s-deployment.yaml
 
-    - name: Commit and Push changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git config --global user.name 'xavelo'
-        git config --global user.email 'xavelo@users.noreply.github.com'
-        git add .
-        git commit -m \"${GITHUB_SHA}\"
-        git remote set-url --push origin https://xavelo:$GITHUB_TOKEN@github.com/${{ github.repository }}        
-        git push
+#    - name: Commit and Push changes
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      run: |
+#        git config --global user.name 'xavelo'
+#        git config --global user.email 'xavelo@users.noreply.github.com'
+#        git add .
+#        git commit -m \"${GITHUB_SHA}\"
+#        git remote set-url --push origin https://xavelo:$GITHUB_TOKEN@github.com/${{ github.repository }}
+#        git push
 
     - name: Build with Maven
       run: mvn clean package
@@ -59,6 +59,6 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/hello-world-k3s:0.0.2 . --push
+        docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/hello-world-k3s:0.0.3 . --push
 
   
