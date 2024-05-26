@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-
     @Value("${HOSTNAME:unknown}")
     private String podName;
+
+    @Value("${git.commit.id}")
+    private String gitCommitId;
 
     int requests = 0;
 
@@ -19,8 +21,8 @@ public class HelloController {
         String branch = "master";
 
         requests += 1;
-        System.out.println("/test 0.1.0 from " + podName + " - " + commitId + " - " + branch);
-        return "0.1.0 test world ArgoCD from " + podName + " ==> commitID " + commitId + " - branch " + branch;
+        System.out.println("/test 0.1.0 from " + podName + " - " + commitId);
+        return "version " + commitId + " - pod " + podName + " ==> commitID " + commitId;
     }
 
 }
