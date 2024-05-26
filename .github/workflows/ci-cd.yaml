@@ -37,7 +37,7 @@ jobs:
 
     - name: Update Version Tag
       run: |
-        yq eval '.spec.template.spec.containers.image = "xavelo/hello-world-k3s:${{ env.TAG }}"' -i argocd/hello-world-k3s-deployment.yaml
+        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${{ env.TAG }}"' -i argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml  # Verify the changes
 
     - name: Update CommitID
