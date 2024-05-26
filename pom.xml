@@ -17,7 +17,7 @@
 		<java.version>17</java.version>
 		<docker.image.prefix>xavelo</docker.image.prefix>
 		<docker.image.name>hello-world-k3s</docker.image.name>
-		<docker.image.version>0.0.1</docker.image.version>
+		<docker.image.version>0.0.2</docker.image.version>
 	</properties>
 	<dependencies>
 		<dependency>
