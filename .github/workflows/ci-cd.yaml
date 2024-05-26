@@ -37,15 +37,14 @@ jobs:
 
     - name: Update Version Tag
       run: |
-        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${{ env.TAG }}"' -i argocd/hello-world-k3s-deployment.yaml
-        cat argocd/hello-world-k3s-deployment.yaml  # Verify the changes
+        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${GITHUB_SHA}"' -i argocd/hello-world-k3s-deployment.yaml
+        cat argocd/hello-world-k3s-deployment.yaml
 
     - name: Update CommitID
       run: |
-        echo "GITHUB_SHA=${GITHUB_SHA}"
         sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
-        sed -i "s/tag/${{ env.TAG }}/g" argocd/hello-world-k3s-deployment.yaml
-        cat argocd/hello-world-k3s-deployment.yaml
+#        sed -i "s/tag/${{ env.TAG }}/g" argocd/hello-world-k3s-deployment.yaml
+#        cat argocd/hello-world-k3s-deployment.yaml
 
     - name: Commit and Push changes
       env:
@@ -72,6 +71,6 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/hello-world-k3s:${{ env.TAG }} . --push
+        docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/hello-world-k3s:${GITHUB_SHA} . --push
 
   
