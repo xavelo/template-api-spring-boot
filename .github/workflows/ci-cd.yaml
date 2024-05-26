@@ -37,7 +37,7 @@ jobs:
 
     - name: Update Version Tag
       run: |
-        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${GITHUB_SHA}"' -i argocd/hello-world-k3s-deployment.yaml
+        yq eval '.spec.template.spec.containers[0].image = "xavelo/hello-world-k3s:${{GITHUB_SHA}}"' -i argocd/hello-world-k3s-deployment.yaml
         cat argocd/hello-world-k3s-deployment.yaml
 
     - name: Update CommitID
