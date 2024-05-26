@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      TAG: '0.1.0'
+      TAG: '0.1.1'
 
     steps:
     - name: Checkout code
@@ -30,7 +30,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-    - name: Update Kubernetes manifest with commit and tag
+    - name: Install yq
+      run: |
+        sudo wget https://github.com/mikefarah/yq/releases/download/v4.13.4/yq_linux_amd64 -O /usr/bin/yq
+        sudo chmod +x /usr/bin/yq
+
+    - name: Update Version Tag
+      run: |
+        yq eval '.spec.template.spec.containers.image = \"xavelo/hello-world-k3s:${{ env.TAG }}\"' -i argocd/hello-world-k3s-deployment.yaml
+        cat argocd/hello-world-k3s-deployment.yaml  # Verify the changes
+
+    - name: Update CommitID
       run: |
         echo "GITHUB_SHA=${GITHUB_SHA}"
         sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/hello-world-k3s-deployment.yaml
