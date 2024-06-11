@@ -1,5 +1,7 @@
 package com.xavelo.helloworldk3s;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.GitProperties;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloController {
+
+    private static final Logger logger = LogManager.getLogger(HelloController.class);
 
     @Value("${HOSTNAME:unknown}")
     private String podName;
@@ -20,6 +24,7 @@ public class HelloController {
         String commitId = gitProperties.getCommitId();
         String branch = gitProperties.getBranch();
         System.out.println(commitId + "-" + podName);
+        logger.info(commitId + "-" + podName);
         return new Hello("hello from pod " + podName, commitId);
     }
 
