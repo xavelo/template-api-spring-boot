@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-world-k3s-deployment
   annotations:
-    commitID: "08ab336d5ad2a258e09a22fa301416ceadbd7394"
+    commitID: "fe5c861a9edaad9f0d8d36c6c56c3504fb6059a4"
 spec:
   replicas: 2
   selector:
@@ -21,6 +21,6 @@ spec:
     spec:
       containers:
         - name: hello-world-k3s
-          image: 'xavelo/hello-world-k3s:08ab336d5ad2a258e09a22fa301416ceadbd7394'
+          image: 'xavelo/hello-world-k3s:fe5c861a9edaad9f0d8d36c6c56c3504fb6059a4'
           ports:
             - containerPort: 80
