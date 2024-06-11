@@ -23,9 +23,10 @@ public class HelloController {
     public Hello hello() {
         String commitId = gitProperties.getCommitId();
         String branch = gitProperties.getBranch();
+        String commitTime = gitProperties.getCommitTime().toString();
         System.out.println(commitId + "-" + podName);
-        logger.info(commitId + "-" + podName);
-        return new Hello("hello from pod " + podName, commitId);
+        logger.info(commitId + "-" + "-" + commitTime + "-" + podName);
+        return new Hello("hello from pod " + podName, commitId + " - " + commitTime);
     }
 
 }
