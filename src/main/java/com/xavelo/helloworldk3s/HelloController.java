@@ -8,6 +8,11 @@ import org.springframework.boot.info.GitProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 @RestController
 public class HelloController {
 
@@ -22,8 +27,9 @@ public class HelloController {
     @GetMapping("/hello")
     public Hello hello() {
         String commitId = gitProperties.getCommitId();
-        String branch = gitProperties.getBranch();
-        String commitTime = gitProperties.getCommitTime().toString();
+        LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String commitTime = dateTime.format(formatter);
         logger.info(commitId + "-" + "-" + commitTime + "-" + podName);
         return new Hello("hello from pod " + podName, commitId + " - " + commitTime);
     }
