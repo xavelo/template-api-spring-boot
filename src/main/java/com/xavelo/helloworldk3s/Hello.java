@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class Hello {
     private String hello;
-    private String data;
+    private String build;
 }
