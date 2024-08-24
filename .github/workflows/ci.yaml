@@ -73,6 +73,6 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/api-template-spring-boot:${GITHUB_SHA} . --push
+        docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/${{ env.GIT_REPO }}:${GITHUB_SHA} . --push
 
   
