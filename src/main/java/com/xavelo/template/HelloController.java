@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.GitProperties;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,13 +25,13 @@ public class HelloController {
     private GitProperties gitProperties;
 
     @GetMapping("/hello")
-    public Hello hello() {
+    public ResponseEntity<Hello> hello() {
         String commitId = gitProperties.getCommitId();
         LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String commitTime = dateTime.format(formatter);
-        logger.info(commitId + "-" + "-" + commitTime + "-" + podName);
-        return new Hello("hello from pod " + podName, commitId + " - " + commitTime);
+        logger.info("hello from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
+        return ResponseEntity.ok(new Hello("hello from pod " + podName, commitId + " - " + commitTime));
     }
 
 }
