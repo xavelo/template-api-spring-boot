@@ -46,7 +46,7 @@ jobs:
         TAG=${GITHUB_SHA}        
         sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/${{ env.K8S_DEPLOYMENT }}
         yq eval '.spec.template.spec.containers[0].image = "xavelo/${{ env.GIT_REPO }}:'$TAG'"' -i argocd/${{ env.K8S_DEPLOYMENT }}
-        cat argocd/api-template-deployment.yaml
+        cat argocd/${{ env.K8S_DEPLOYMENT }}
 
     - name: Commit and Push changes
       env:
