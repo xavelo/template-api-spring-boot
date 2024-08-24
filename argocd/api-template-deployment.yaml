@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: api-template-deployment
   annotations:
-    commitID: "64ea5d1567a10d08c48ff0f0e7a81fdf64b94890"
+    commitID: "a9110e3924fd0438f4f7d23d16d4757adf608c83"
 spec:
   replicas: 3
   selector:
@@ -21,6 +21,6 @@ spec:
     spec:
       containers:
         - name: api-template
-          image: 'xavelo/api-template:64ea5d1567a10d08c48ff0f0e7a81fdf64b94890'
+          image: 'xavelo/api-template:a9110e3924fd0438f4f7d23d16d4757adf608c83'
           ports:
             - containerPort: 80
