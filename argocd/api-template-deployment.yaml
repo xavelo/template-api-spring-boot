@@ -21,6 +21,6 @@ spec:
     spec:
       containers:
         - name: api-template
-          image: 'xavelo/api-template:d697a0ed453ed440b07e83baa569db5618cfa162'
+          image: 'xavelo/api-template-spring-boot:d697a0ed453ed440b07e83baa569db5618cfa162'
           ports:
             - containerPort: 80
