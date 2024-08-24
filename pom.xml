@@ -9,13 +9,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.xavelo</groupId>
-	<artifactId>hello-world-k3s</artifactId>
-	<name>hello-world-k3s</name>
-	<description>Hello World App for k3s</description>
+	<artifactId>api-template</artifactId>
+	<name>api-template-spring-boot</name>
+	<description>API Template Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 		<docker.image.prefix>xavelo</docker.image.prefix>
-		<docker.image.name>hello-world-k3s</docker.image.name>
+		<docker.image.name>api-template-spring-boot</docker.image.name>
 	</properties>
 	<dependencies>
 		<dependency>

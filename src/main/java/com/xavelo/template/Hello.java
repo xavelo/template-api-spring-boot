@@ -1,4 +1,4 @@
-package com.xavelo.helloworldk3s;
+package com.xavelo.template;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

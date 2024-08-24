@@ -1,9 +1,0 @@
-
-image:
-  repository: xavelo/hello-world-k3s
-  tag: latest
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 80

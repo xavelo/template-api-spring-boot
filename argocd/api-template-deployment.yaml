@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-template-deployment
+  annotations:
+    commitID: "83eba9a206dcbecc1374f1e12ba0c3ee6d332a71"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api-template
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: api-template
+    spec:
+      containers:
+        - name: api-template
+          image: 'xavelo/api-template-spring-boot:83eba9a206dcbecc1374f1e12ba0c3ee6d332a71'
+          ports:
+            - containerPort: 80

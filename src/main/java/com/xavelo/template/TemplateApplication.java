@@ -1,4 +1,4 @@
-package com.xavelo.helloworldk3s;
+package com.xavelo.template;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @PropertySource("classpath:git.properties")
-public class HelloWorldK3sApplication {
+public class TemplateApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HelloWorldK3sApplication.class, args);
+		SpringApplication.run(TemplateApplication.class, args);
 	}
 
 }
