@@ -2,6 +2,7 @@ name: CI/CD Pipeline
 
 env:
   GIT_REPO: 'api-template-spring-boot'
+  K8S_DEPLOYMENT: 'api-template-deployment.yyaml'
 
 on:
   push:
@@ -43,8 +44,8 @@ jobs:
     - name: Update Kubernetes manifest with Commit ID and Version Tag
       run: |
         TAG=${GITHUB_SHA}        
-        sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/api-template-deployment.yaml
-        yq eval '.spec.template.spec.containers[0].image = "xavelo/${{ env.GIT_REPO }}:'$TAG'"' -i argocd/api-template-deployment.yaml
+        sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/${{ env.K8S_DEPLOYMENT }}
+        yq eval '.spec.template.spec.containers[0].image = "xavelo/${{ env.GIT_REPO }}:'$TAG'"' -i argocd/${{ env.K8S_DEPLOYMENT }}
         cat argocd/api-template-deployment.yaml
 
     - name: Commit and Push changes
