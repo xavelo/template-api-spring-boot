@@ -37,7 +37,7 @@ jobs:
       run: |
         TAG=${GITHUB_SHA}        
         sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/api-template-deployment.yaml
-        yq eval '.spec.template.spec.containers[0].image = "xavelo/api-template:'$TAG'"' -i argocd/api-template-deployment.yaml
+        yq eval '.spec.template.spec.containers[0].image = "xavelo/api-template-spring-boot:'$TAG'"' -i argocd/api-template-deployment.yaml
         cat argocd/api-template-deployment.yaml
 
     - name: Commit and Push changes
