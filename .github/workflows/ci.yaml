@@ -1,13 +1,20 @@
 name: CI/CD Pipeline
 
+env:
+  GIT_REPO: 'api-template-spring-boot'
+
 on:
   push:
     branches:
       - master
+
 permissions:
   contents: write
+
 jobs:
+
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -37,7 +44,7 @@ jobs:
       run: |
         TAG=${GITHUB_SHA}        
         sed -i "s/commitID:.*$/commitID: \"${GITHUB_SHA}\"/" argocd/api-template-deployment.yaml
-        yq eval '.spec.template.spec.containers[0].image = "xavelo/api-template-spring-boot:'$TAG'"' -i argocd/api-template-deployment.yaml
+        yq eval '.spec.template.spec.containers[0].image = "xavelo/${{ env.GIT_REPO }}:'$TAG'"' -i argocd/api-template-deployment.yaml
         cat argocd/api-template-deployment.yaml
 
     - name: Commit and Push changes
