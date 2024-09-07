@@ -10,7 +10,7 @@ spring:
     gateway:
       routes:
         - id: ping_route
-          uri: http://api-template-service:8080
+          uri: http://localhost:8080
           predicates:
             - Path=/ping
           filters:
