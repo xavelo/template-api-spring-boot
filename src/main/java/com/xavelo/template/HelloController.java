@@ -24,14 +24,14 @@ public class HelloController {
     @Autowired
     private GitProperties gitProperties;
 
-    @GetMapping("/hello")
-    public ResponseEntity<Hello> hello() {
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
         String commitId = gitProperties.getCommitId();
         LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String commitTime = dateTime.format(formatter);
-        logger.info("hello from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
-        return ResponseEntity.ok(new Hello("hello from pod " + podName, commitId + " - " + commitTime));
+        logger.info("pong from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
+        return ResponseEntity.ok("pong from pod " + podName + " - " + commitId + " - " + commitTime);
     }
 
 }
