@@ -5,7 +5,7 @@ metadata:
   annotations:
     commitID: "fd331fd6262eb302b8a756b3b2d489a1ed8c71a1"
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: api-template
