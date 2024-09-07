@@ -30,8 +30,8 @@ public class PingController {
         LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String commitTime = dateTime.format(formatter);
-        logger.info("pong from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
-        return Mono.just("pong from pod " + podName + " - " + commitId + " - " + commitTime);
+        logger.info("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx pong from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
+        return Mono.just("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpong from pod " + podName + " - " + commitId + " - " + commitTime);
     }
 
 }
