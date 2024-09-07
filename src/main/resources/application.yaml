@@ -3,6 +3,8 @@ debug: true
 spring:
   application:
     name: template-api
+  main:
+    web-application-type: reactive
 
   cloud:
     gateway:
