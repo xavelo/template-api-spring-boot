@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController {
+public class PingController {
 
-    private static final Logger logger = LogManager.getLogger(HelloController.class);
+    private static final Logger logger = LogManager.getLogger(PingController.class);
 
     @Value("${HOSTNAME:unknown}")
     private String podName;
