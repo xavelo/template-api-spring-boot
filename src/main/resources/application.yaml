@@ -1,0 +1,23 @@
+debug: true
+
+spring:
+  application:
+    name: template-api
+
+  cloud:
+    gateway:
+      routes:
+        - id: ping_route
+          uri: http://localhost:8080
+          predicates:
+            - Path=/ping
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 3
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@ipKeyResolver}"
+    redis:
+      host: 10.43.133.15
+      port: 6379
