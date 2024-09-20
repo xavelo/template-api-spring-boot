@@ -11,7 +11,7 @@ public class LatencyService {
 
     private static final Logger logger = Logger.getLogger(LatencyService.class.getName());
     
-    private static final int LOOP = 1_000;
+    private static final int LOOP = 1_000_000;
 
     public LatencyService() {
     }

@@ -37,7 +37,6 @@ public class LatencyController {
         String commitTime = dateTime.format(formatter);
         logger.info("latency asynch from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
         
-        // Refactor getLatency to return a Mono
         return latencyService.getLatencyAsynch()
             .map(latency -> {
                 LatencyResponse response = new LatencyResponse(latency.longValue());
