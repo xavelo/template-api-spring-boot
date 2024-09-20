@@ -2,7 +2,6 @@ package com.xavelo.template;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +20,11 @@ public class PingController {
     @Value("${HOSTNAME:unknown}")
     private String podName;
 
-    @Autowired
-    private GitProperties gitProperties;
+    private final GitProperties gitProperties;
+
+    public PingController(GitProperties gitProperties) {
+        this.gitProperties = gitProperties;
+    }
 
     @GetMapping("/ping")
     public Mono<String> ping() {
