@@ -29,11 +29,6 @@ public class LatencyController {
         this.latencyService = latencyService;
     }
 
-    @GetMapping("/ping")
-    public ResponseEntity<String> ping() {
-        return ResponseEntity.ok("pong");
-    }
-
     @GetMapping("/latency-asynch")
     public Mono<ResponseEntity<LatencyResponse>> latencyAsynch() {
         String commitId = gitProperties.getCommitId();
