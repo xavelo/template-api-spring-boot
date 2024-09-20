@@ -16,26 +16,22 @@ public class LatencyService {
     public Mono<Void> getLatencyAsynch() {
         return Mono.fromRunnable(() -> {
             long startTime = System.currentTimeMillis(); // Start time
-            try {
-                Thread.sleep(500); // Simulate latency
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt(); // Restore interrupted status
-            } finally {
-                long duration = System.currentTimeMillis() - startTime; // Calculate duration
-                logger.info("getLatency executed in " + duration + " ms"); // Log duration
+            // Simulate latency with CPU-intensive calculations
+            for (int i = 0; i < 1_000_000; i++) {
+                Math.sqrt(i); // Perform a CPU-intensive calculation
             }
+            long duration = System.currentTimeMillis() - startTime; // Calculate duration
+            logger.info("getLatency executed in " + duration + " ms"); // Log duration
         }).then(); // Ensure it returns Mono<Void>
     }
 
     public void getLatency() {
         long startTime = System.currentTimeMillis(); // Start time
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            long duration = System.currentTimeMillis() - startTime; // Calculate duration
-            logger.info("getLatency executed in " + duration + " ms"); // Log duration
+        // Simulate latency with CPU-intensive calculations
+        for (int i = 0; i < 1_000_000; i++) {
+            Math.sqrt(i); // Perform a CPU-intensive calculation
         }
+        long duration = System.currentTimeMillis() - startTime; // Calculate duration
+        logger.info("getLatency executed in " + duration + " ms"); // Log duration
     }
 }
