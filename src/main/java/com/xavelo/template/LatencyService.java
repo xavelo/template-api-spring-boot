@@ -21,7 +21,7 @@ public class LatencyService {
             long startTime = System.currentTimeMillis(); // Start time
             // Simulate latency with CPU-intensive calculations
             for (int i = 0; i < LOOP; i++) {
-                Math.sqrt(i); // Perform a CPU-intensive calculation
+                Math.sqrt(i + (int)(Math.random() * 1000)); // Add randomness to the calculation
             }
             long duration = System.currentTimeMillis() - startTime; // Calculate duration
             logger.info("getLatencyAsynch executed LOOP " + LOOP + " in " + duration + " ms"); // Log duration
@@ -32,9 +32,10 @@ public class LatencyService {
         long startTime = System.currentTimeMillis(); // Start time
         // Simulate latency with CPU-intensive calculations
         for (int i = 0; i < LOOP; i++) {
-            Math.sqrt(i); // Perform a CPU-intensive calculation
+            Math.sqrt(i + (int)(Math.random() * 1000)); // Add randomness to the calculation
         }
         long duration = System.currentTimeMillis() - startTime; // Calculate duration
         logger.info("getLatency executed LOOP " + LOOP + " in " + duration + " ms"); // Log duration
     }
+    
 }
