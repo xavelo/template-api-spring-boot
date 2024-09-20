@@ -39,6 +39,18 @@ public class PingController {
         return Mono.just(ResponseEntity.ok(response));
     }
 
+    @GetMapping("/ping-sync")
+    public ResponseEntity<PingResponse> pingSync() {
+        String commitId = gitProperties.getCommitId();
+        LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String commitTime = dateTime.format(formatter);
+        logger.info("pong (sync) from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
+        
+        PingResponse response = new PingResponse(podName, commitId, commitTime);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/test")
     public Mono<ResponseEntity<String>> test() {
         logger.info("test");
