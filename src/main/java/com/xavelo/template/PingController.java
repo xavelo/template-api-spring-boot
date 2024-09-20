@@ -40,9 +40,9 @@ public class PingController {
     }
 
     @GetMapping("/test")
-    public Mono<String> test() {
+    public Mono<ResponseEntity<String>> test() {
         logger.info("test");
-        return Mono.just("test");
+        return Mono.just(ResponseEntity.ok("test"));
     }
 
 }
