@@ -39,13 +39,13 @@ public class LatencyController {
         LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String commitTime = dateTime.format(formatter);
-        logger.info("latency from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
+        logger.info("latency asynch from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
         
         LatencyResponse response = new LatencyResponse(podName, commitId, commitTime);
         return Mono.just(ResponseEntity.ok(response));
     }
 
-    @GetMapping("/latency-sync")
+    @GetMapping("/latency-synch")
     public ResponseEntity<LatencyResponse> latencySync() {
         // Simulate latency
         try {
@@ -57,7 +57,7 @@ public class LatencyController {
         LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String commitTime = dateTime.format(formatter);
-        logger.info("latency (sync) from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
+        logger.info("latency synch from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
         
         LatencyResponse response = new LatencyResponse(podName, commitId, commitTime);
         return ResponseEntity.ok(response);
