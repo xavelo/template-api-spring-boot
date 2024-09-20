@@ -8,7 +8,10 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class LatencyService {
-    private static final Logger logger = Logger.getLogger(LatencyService.class.getName()); // Initialize logger
+
+    private static final Logger logger = Logger.getLogger(LatencyService.class.getName());
+    
+    private static final int LOOP = 1_000_000_000;
 
     public LatencyService() {
     }
@@ -17,7 +20,7 @@ public class LatencyService {
         return Mono.fromRunnable(() -> {
             long startTime = System.currentTimeMillis(); // Start time
             // Simulate latency with CPU-intensive calculations
-            for (int i = 0; i < 1_000_000; i++) {
+            for (int i = 0; i < LOOP; i++) {
                 Math.sqrt(i); // Perform a CPU-intensive calculation
             }
             long duration = System.currentTimeMillis() - startTime; // Calculate duration
@@ -28,7 +31,7 @@ public class LatencyService {
     public void getLatency() {
         long startTime = System.currentTimeMillis(); // Start time
         // Simulate latency with CPU-intensive calculations
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < LOOP; i++) {
             Math.sqrt(i); // Perform a CPU-intensive calculation
         }
         long duration = System.currentTimeMillis() - startTime; // Calculate duration
