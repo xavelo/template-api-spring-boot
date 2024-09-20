@@ -13,4 +13,8 @@ public class LatencyResponse {
         this.commitId = commitId;
         this.commitTime = commitTime;
     }
-}s
+
+    public LatencyResponse() {
+        // Default constructor
+    }
+}

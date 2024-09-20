@@ -28,7 +28,7 @@ public class LatencyController {
     }
 
     @GetMapping("/latency-asynch")
-    public Mono<ResponseEntity<PingResponse>> latencyAsynch() {
+    public Mono<ResponseEntity<LatencyResponse>> latencyAsynch() {
         // Simulate latency
         try {
             Thread.sleep(200); // Simulate 200ms latency
@@ -41,12 +41,12 @@ public class LatencyController {
         String commitTime = dateTime.format(formatter);
         logger.info("latency from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
         
-        PingResponse response = new PingResponse(podName, commitId, commitTime);
+        LatencyResponse response = new LatencyResponse(podName, commitId, commitTime);
         return Mono.just(ResponseEntity.ok(response));
     }
 
     @GetMapping("/latency-sync")
-    public ResponseEntity<PingResponse> latencySync() {
+    public ResponseEntity<LatencyResponse> latencySync() {
         // Simulate latency
         try {
             Thread.sleep(200); // Simulate 200ms latency
@@ -59,7 +59,7 @@ public class LatencyController {
         String commitTime = dateTime.format(formatter);
         logger.info("latency (sync) from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
         
-        PingResponse response = new PingResponse(podName, commitId, commitTime);
+        LatencyResponse response = new LatencyResponse(podName, commitId, commitTime);
         return ResponseEntity.ok(response);
     }
 
