@@ -36,9 +36,13 @@ public class LatencyController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String commitTime = dateTime.format(formatter);
         logger.info("latency asynch from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
-        latencyService.getLatency();
-        LatencyResponse response = new LatencyResponse(podName, commitId, commitTime);
-        return Mono.just(ResponseEntity.ok(response));
+        
+        // Refactor getLatency to return a Mono
+        return latencyService.getLatencyAsynch()
+            .map(latency -> {
+                LatencyResponse response = new LatencyResponse(podName, commitId, commitTime);
+                return ResponseEntity.ok(response);
+            });
     }
 
     @GetMapping("/latency-synch")
