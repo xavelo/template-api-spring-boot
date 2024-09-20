@@ -11,7 +11,7 @@ public class LatencyService {
 
     private static final Logger logger = Logger.getLogger(LatencyService.class.getName());
     
-    private static final int LOOP = 1_000_000_000;
+    private static final int LOOP = 1_000;
 
     public LatencyService() {
     }
@@ -37,5 +37,5 @@ public class LatencyService {
         long duration = System.currentTimeMillis() - startTime; // Calculate duration
         logger.info("getLatency executed LOOP " + LOOP + " in " + duration + " ms"); // Log duration
     }
-    
+
 }
