@@ -16,26 +16,31 @@ public class LatencyService {
     public LatencyService() {
     }
 
-    public Mono<Void> getLatencyAsynch() {
-        return Mono.fromRunnable(() -> {
+    public Mono<Long> getLatencyAsynch() { // Change return type to Mono<Integer>
+        return Mono.fromCallable(() -> { // Change fromRunnable to fromCallable
             long startTime = System.currentTimeMillis(); // Start time
+            long sum = 0; // Initialize sum variable
             // Simulate latency with CPU-intensive calculations
             for (int i = 0; i < LOOP; i++) {
-                Math.sqrt(i + (int)(Math.random() * 1000)); // Add randomness to the calculation
+                sum += Math.sqrt(i + (int)(Math.random() * 1000)); // Add to sum
             }
             long duration = System.currentTimeMillis() - startTime; // Calculate duration
-            logger.info("getLatencyAsynch executed LOOP " + LOOP + " in " + duration + " ms"); // Log duration
-        }).then(); // Ensure it returns Mono<Void>
+            logger.info("getLatencyAsynch executed LOOP " + LOOP + " in " + duration + " ms - result: " + sum); // Log duration
+            return sum; // Return the sum
+        }); // Ensure it returns Mono<Integer>
     }
 
-    public void getLatency() {
+    public Long getLatency() {
         long startTime = System.currentTimeMillis(); // Start time
         // Simulate latency with CPU-intensive calculations
-        for (int i = 0; i < LOOP; i++) {
-            Math.sqrt(i + (int)(Math.random() * 1000)); // Add randomness to the calculation
-        }
+        long sum = 0; // Initialize sum variable
+            // Simulate latency with CPU-intensive calculations
+            for (int i = 0; i < LOOP; i++) {
+                sum += Math.sqrt(i + (int)(Math.random() * 1000)); // Add to sum
+            }
         long duration = System.currentTimeMillis() - startTime; // Calculate duration
-        logger.info("getLatency executed LOOP " + LOOP + " in " + duration + " ms"); // Log duration
+        logger.info("getLatency executed LOOP " + LOOP + " in " + duration + " ms - result: " + sum); // Log duration
+        return sum;
     }
 
 }

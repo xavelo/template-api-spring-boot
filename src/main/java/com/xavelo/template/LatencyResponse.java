@@ -4,14 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class LatencyResponse {
-    private String podName;
-    private String commitId;
-    private String commitTime;
+    private Long value;
 
-    public LatencyResponse(String podName, String commitId, String commitTime) {
-        this.podName = podName;
-        this.commitId = commitId;
-        this.commitTime = commitTime;
+    public LatencyResponse(Long value) {
+        this.value = value;
     }
 
     public LatencyResponse() {
