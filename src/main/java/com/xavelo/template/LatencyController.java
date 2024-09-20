@@ -22,43 +22,38 @@ public class LatencyController {
     private String podName;
 
     private final GitProperties gitProperties;
+    private final LatencyService latencyService;
 
-    public LatencyController(GitProperties gitProperties) {
+    public LatencyController(GitProperties gitProperties, LatencyService latencyService) {
         this.gitProperties = gitProperties;
+        this.latencyService = latencyService;
+    }
+
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("pong");
     }
 
     @GetMapping("/latency-asynch")
     public Mono<ResponseEntity<LatencyResponse>> latencyAsynch() {
-        // Simulate latency
-        try {
-            Thread.sleep(200); // Simulate 200ms latency
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Restore interrupted status
-        }
         String commitId = gitProperties.getCommitId();
         LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String commitTime = dateTime.format(formatter);
         logger.info("latency asynch from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
-        
+        latencyService.getLatency();
         LatencyResponse response = new LatencyResponse(podName, commitId, commitTime);
         return Mono.just(ResponseEntity.ok(response));
     }
 
     @GetMapping("/latency-synch")
-    public ResponseEntity<LatencyResponse> latencySync() {
-        // Simulate latency
-        try {
-            Thread.sleep(200); // Simulate 200ms latency
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Restore interrupted status
-        }
+    public ResponseEntity<LatencyResponse> latencySync() {        
         String commitId = gitProperties.getCommitId();
         LocalDateTime dateTime = LocalDateTime.ofInstant(gitProperties.getCommitTime(), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String commitTime = dateTime.format(formatter);
         logger.info("latency synch from pod {} - commitId {} - commitTime {}", commitId, commitTime, podName);
-        
+        latencyService.getLatency();
         LatencyResponse response = new LatencyResponse(podName, commitId, commitTime);
         return ResponseEntity.ok(response);
     }
