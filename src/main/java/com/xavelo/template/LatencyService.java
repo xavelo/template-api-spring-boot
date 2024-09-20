@@ -24,7 +24,7 @@ public class LatencyService {
                 Math.sqrt(i); // Perform a CPU-intensive calculation
             }
             long duration = System.currentTimeMillis() - startTime; // Calculate duration
-            logger.info("getLatency executed in " + duration + " ms"); // Log duration
+            logger.info("getLatencyAsynch executed LOOP " + LOOP + " in " + duration + " ms"); // Log duration
         }).then(); // Ensure it returns Mono<Void>
     }
 
@@ -35,6 +35,6 @@ public class LatencyService {
             Math.sqrt(i); // Perform a CPU-intensive calculation
         }
         long duration = System.currentTimeMillis() - startTime; // Calculate duration
-        logger.info("getLatency executed in " + duration + " ms"); // Log duration
+        logger.info("getLatency executed LOOP " + LOOP + " in " + duration + " ms"); // Log duration
     }
 }
