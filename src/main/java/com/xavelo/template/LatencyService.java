@@ -2,6 +2,9 @@ package com.xavelo.template;
 
 import java.util.logging.Logger; // Add this import
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class LatencyService {
     private static final Logger logger = Logger.getLogger(LatencyService.class.getName()); // Initialize logger
 
