@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: api-template-deployment
   annotations:
-    commitID: "463d1cc1e38db46d628c617e99ac8eee83c33629"
+    commitID: "b6ac9fc822ea344298e357127c7cc9c0c69cc163"
 spec:
   replicas: 1
   selector:
@@ -21,6 +21,6 @@ spec:
     spec:
       containers:
         - name: api-template
-          image: 'xavelo/api-template-spring-boot:463d1cc1e38db46d628c617e99ac8eee83c33629'
+          image: 'xavelo/api-template-spring-boot:b6ac9fc822ea344298e357127c7cc9c0c69cc163'
           ports:
             - containerPort: 80
