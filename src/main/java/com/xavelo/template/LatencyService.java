@@ -22,7 +22,9 @@ public class LatencyService {
             long sum = 0; // Initialize sum variable
             // Simulate latency with CPU-intensive calculations
             for (int i = 0; i < LOOP; i++) {
-                sum += Math.sqrt(i + (int)(Math.random() * 1000)); // Add to sum
+                sum += Math.sqrt(i + (int)(Math.random() * 1000));
+                sum += Math.pow(i, 2); // Additional CPU-intensive operation
+                sum += fibonacci(i % 10); // Another CPU-intensive operation
             }
             long duration = System.currentTimeMillis() - startTime; // Calculate duration
             logger.info("getLatencyAsynch executed LOOP " + LOOP + " in " + duration + " ms - result: " + sum); // Log duration
@@ -36,11 +38,19 @@ public class LatencyService {
         long sum = 0; // Initialize sum variable
             // Simulate latency with CPU-intensive calculations
             for (int i = 0; i < LOOP; i++) {
-                sum += Math.sqrt(i + (int)(Math.random() * 1000)); // Add to sum
+                sum += Math.sqrt(i + (int)(Math.random() * 1000));
+                sum += Math.pow(i, 2); // Additional CPU-intensive operation
+                sum += fibonacci(i % 10); // Another CPU-intensive operationAdd to sum
             }
         long duration = System.currentTimeMillis() - startTime; // Calculate duration
         logger.info("getLatency executed LOOP " + LOOP + " in " + duration + " ms - result: " + sum); // Log duration
         return sum;
+    }
+
+    // Helper method for calculating Fibonacci numbers
+    private int fibonacci(int n) {
+        if (n <= 1) return n;
+        return fibonacci(n - 1) + fibonacci(n - 2);
     }
 
 }
