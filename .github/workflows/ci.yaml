@@ -19,6 +19,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Debug
+      run: |
+        docker version
+        docker info
+        echo ${{ secrets.DOCKERHUB_USERNAME }}
+        
     - name: Checkout code
       uses: actions/checkout@v4
 
