@@ -1,8 +1,8 @@
 name: CI/CD Pipeline
 
 env:
-  GIT_REPO: 'api-template-spring-boot'
-  K8S_DEPLOYMENT: 'api-template-deployment.yaml'
+  GIT_REPO: 'api-song-quotes'
+  K8S_DEPLOYMENT: 'api-song-quotes-deployment.yaml'
 
 on:
   push:

@@ -2,9 +2,7 @@ debug: false
 
 spring:
   application:
-    name: template-api
-  main:
-    web-application-type: reactive
+    name: api-song-quotes
 management:
   endpoints:
     web:
