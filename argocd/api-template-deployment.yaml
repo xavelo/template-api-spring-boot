@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-song-quotes-deployment
+  name: api-template-deployment
   annotations:
-    commitID: "c5c670fcf72db2029791935e7b99f5da3d9ce335"
+    commitID: "21b2394cc946084267390a608e73a92ef389fba0"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api-song-quotes
+      app: api-template
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,10 +17,10 @@ spec:
   template:
     metadata:
       labels:
-        app: api-song-quotes
+        app: api-template
     spec:
       containers:
-        - name: api-song-quotes
-          image: 'xavelo/api-song-quotes:c5c670fcf72db2029791935e7b99f5da3d9ce335'
+        - name: api-template
+          image: 'xavelo/api-template-spring-boot:21b2394cc946084267390a608e73a92ef389fba0'
           ports:
             - containerPort: 80

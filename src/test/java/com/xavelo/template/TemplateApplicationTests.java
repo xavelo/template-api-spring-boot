@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootTest
-class ApiApiSongQuotesApplicationTests {
+class TemplateApplicationTests {
 
 	@Autowired
 	private ApplicationContext applicationContext;
