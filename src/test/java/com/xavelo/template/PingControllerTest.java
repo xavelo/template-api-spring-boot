@@ -1,7 +1,7 @@
 package com.xavelo.template;
 
-import com.xavelo.template.api.adapter.in.http.PingController;
-import com.xavelo.template.api.adapter.in.http.PingResponse;
+import com.xavelo.template.api.adapter.in.http.ping.PingController;
+import com.xavelo.template.api.adapter.in.http.ping.PingResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -55,9 +55,9 @@ class PingControllerTest {
                     PingResponse pingResponse = response.getBody();
                     System.out.println("Actual response: " + pingResponse);
                     return response.getStatusCode().is2xxSuccessful() &&
-                           "test-pod".equals(pingResponse.getPodName()) &&
-                           commitId.equals(pingResponse.getCommitId()) &&
-                           formattedCommitTime.equals(pingResponse.getCommitTime());
+                           "test-pod".equals(pingResponse.podName()) &&
+                           commitId.equals(pingResponse.commitId()) &&
+                           formattedCommitTime.equals(pingResponse.commitTime());
                 })
                 .verifyComplete();
     }

@@ -1,4 +1,4 @@
-package com.xavelo.template.api.adapter.in.http;
+package com.xavelo.template.api.adapter.in.http.ping;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
