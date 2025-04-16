@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class LatencyService implements AsynchExpensiveOperationUseCase, SynchExpensiveOperationUseCase {
+public class ExpensiveOperationService implements AsynchExpensiveOperationUseCase, SynchExpensiveOperationUseCase {
 
-    private static final Logger logger = Logger.getLogger(LatencyService.class.getName());
+    private static final Logger logger = Logger.getLogger(ExpensiveOperationService.class.getName());
     
     private static final int LOOP = 1_000_000;
 
