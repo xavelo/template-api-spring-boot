@@ -13,7 +13,7 @@ public class ExpensiveOperationService implements AsynchExpensiveOperationUseCas
 
     private static final Logger logger = Logger.getLogger(ExpensiveOperationService.class.getName());
     
-    private static final int LOOP = 1_000_000;
+    private static final int LOOP = 1_000_000_000;
 
     @Override
     public Mono<Long> nonBlockingExpensiveOperation() {
