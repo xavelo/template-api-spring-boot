@@ -1,6 +1,6 @@
 package com.xavelo.template.api.application.service;
 
-import java.util.logging.Logger; // Add this import
+import java.util.logging.Logger;
 
 import com.xavelo.template.port.in.AsynchExpensiveOperationUseCase;
 import com.xavelo.template.port.in.SynchExpensiveOperationUseCase;
@@ -13,7 +13,7 @@ public class ExpensiveOperationService implements AsynchExpensiveOperationUseCas
 
     private static final Logger logger = Logger.getLogger(ExpensiveOperationService.class.getName());
     
-    private static final int LOOP = 1_000_000_000;
+    private static final int LOOP = 10_000_000;
 
     @Override
     public Mono<Long> nonBlockingExpensiveOperation() {
@@ -31,7 +31,7 @@ public class ExpensiveOperationService implements AsynchExpensiveOperationUseCas
         long startTime = System.currentTimeMillis();
         long value = expensiveOperation();
         long duration = System.currentTimeMillis() - startTime;
-        logger.info("getLatency executed LOOP " + LOOP + " in " + duration + " ms - result: " + value);
+        logger.info("Blocking expensiveOperation executed LOOP " + LOOP + " in " + duration + " ms - result: " + value);
         return value;
     }
 
