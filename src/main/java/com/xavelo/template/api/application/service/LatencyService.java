@@ -13,11 +13,8 @@ public class LatencyService {
     
     private static final int LOOP = 1_000_000;
 
-    public LatencyService() {
-    }
-
-    public Mono<Long> getLatencyAsynch() { // Change return type to Mono<Integer>
-        return Mono.fromCallable(() -> { // Change fromRunnable to fromCallable
+    public Mono<Long> getLatencyAsynch() {
+        return Mono.fromCallable(() -> {
             long startTime = System.currentTimeMillis(); // Start time
             long sum = 0; // Initialize sum variable
             // Simulate latency with CPU-intensive calculations
