@@ -1,4 +1,4 @@
-package com.xavelo.template;
+package com.xavelo.template.api.adapter.in.http;
 
 import lombok.Getter;
 

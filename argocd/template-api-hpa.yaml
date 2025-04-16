@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: api-template-hpa
+  name: template-api-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: api-template-deployment
+    name: template-api-deployment
   minReplicas: 1
   maxReplicas: 10
   metrics:

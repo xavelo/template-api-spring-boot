@@ -1,5 +1,7 @@
 package com.xavelo.template;
 
+import com.xavelo.template.api.adapter.in.http.PingController;
+import com.xavelo.template.api.adapter.in.http.PingResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

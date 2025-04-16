@@ -8,10 +8,10 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @EnableDiscoveryClient
 @PropertySource("classpath:git.properties")
-public class TemplateApplication {
+public class TemplateApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TemplateApplication.class, args);
+		SpringApplication.run(TemplateApiApplication.class, args);
 	}
 
 }

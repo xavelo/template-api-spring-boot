@@ -1,5 +1,6 @@
-package com.xavelo.template;
+package com.xavelo.template.api.adapter.in.http;
 
+import com.xavelo.template.api.application.service.LatencyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;

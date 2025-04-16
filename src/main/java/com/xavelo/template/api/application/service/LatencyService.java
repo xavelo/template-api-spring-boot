@@ -1,4 +1,4 @@
-package com.xavelo.template;
+package com.xavelo.template.api.application.service;
 
 import java.util.logging.Logger; // Add this import
 
