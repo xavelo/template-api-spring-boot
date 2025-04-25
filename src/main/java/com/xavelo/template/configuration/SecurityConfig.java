@@ -15,11 +15,11 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/ping/**").permitAll()
-                        .requestMatchers("/latency/**").permitAll()
-                        //.requestMatchers("/secure/**").hasAuthority(TEMPLATE_API_SCOPE)
-                        //.anyRequest().authenticated()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/api/ping/**").permitAll()
+                        .requestMatchers("/api/latency/**").permitAll()
+                        .requestMatchers("/api/secure/**").hasAuthority(TEMPLATE_API_SCOPE)
+                        .anyRequest().authenticated()
+                        //.anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt());
 
