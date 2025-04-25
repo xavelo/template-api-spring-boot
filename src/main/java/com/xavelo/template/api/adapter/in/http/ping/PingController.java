@@ -5,10 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @RestController
+@RequestMapping("/api")
 public class PingController {
 
     private static final Logger logger = LogManager.getLogger(PingController.class);
@@ -17,8 +18,8 @@ public class PingController {
     private String podName;
 
     @GetMapping("/ping")
-    public Mono<ResponseEntity<String>> ping() {
-        return Mono.just(ResponseEntity.ok("pong from " + podName));
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("pong from " + podName);
     }
 
 }

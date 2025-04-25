@@ -1,30 +1,16 @@
 package com.xavelo.template.api.application.service;
 
-import java.util.logging.Logger;
-
-import com.xavelo.template.port.in.AsynchExpensiveOperationUseCase;
 import com.xavelo.template.port.in.SynchExpensiveOperationUseCase;
 import org.springframework.stereotype.Service;
 
-import reactor.core.publisher.Mono;
+import java.util.logging.Logger;
 
 @Service
-public class ExpensiveOperationService implements AsynchExpensiveOperationUseCase, SynchExpensiveOperationUseCase {
+public class ExpensiveOperationService implements SynchExpensiveOperationUseCase {
 
     private static final Logger logger = Logger.getLogger(ExpensiveOperationService.class.getName());
     
     private static final int LOOP = 10_000_000;
-
-    @Override
-    public Mono<Long> nonBlockingExpensiveOperation() {
-        return Mono.fromCallable(() -> {
-            long startTime = System.currentTimeMillis();
-            long value = expensiveOperation();
-            long duration = System.currentTimeMillis() - startTime;
-            logger.info("Asynch expensiveOperation executed LOOP " + LOOP + " in " + duration + " ms - result: " + value);
-            return value;
-        });
-    }
 
     @Override
     public Long blockingExpensiveOperation() {

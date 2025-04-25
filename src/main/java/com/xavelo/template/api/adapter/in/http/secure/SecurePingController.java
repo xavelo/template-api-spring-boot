@@ -5,10 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @RestController
+@RequestMapping("/api/secure")
 public class SecurePingController {
 
     private static final Logger logger = LogManager.getLogger(SecurePingController.class);
@@ -16,9 +17,9 @@ public class SecurePingController {
     @Value("${HOSTNAME:unknown}")
     private String podName;
 
-    @GetMapping("/secure/ping")
-    public Mono<ResponseEntity<String>> ping() {
-        return Mono.just(ResponseEntity.ok("pong from " + podName));
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("pong from " + podName);
     }
 
 }
