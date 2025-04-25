@@ -5,6 +5,11 @@ spring:
     name: template-api
   main:
     web-application-type: reactive
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://http://192.168.1.139:32080/realms/xavelo
 management:
   endpoints:
     web:
