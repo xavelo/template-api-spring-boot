@@ -8,14 +8,14 @@
 		<version>3.3.4</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.xavelo.template</groupId>
-	<artifactId>api-srping-boot</artifactId>
-	<name>template-api-spring-boot</name>
-	<description>API Template Spring Boot</description>
+	<groupId>com.xavelo</groupId>
+	<artifactId>brqt</artifactId>
+	<name>bad-religion-quotes-service</name>
+	<description>Bar Religion Quotes Service</description>
 	<properties>
 		<java.version>17</java.version>
 		<docker.image.prefix>xavelo</docker.image.prefix>
-		<docker.image.name>template-api-spring-boot</docker.image.name>
+		<docker.image.name>bad-religion-quotes-service</docker.image.name>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
