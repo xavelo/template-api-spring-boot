@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: Bad Religion Quotes API
+  version: 1.0.0
+  description: API definition for the Bad Religion Quotes Service template.
+servers:
+  - url: /
+paths:
+  /api/ping:
+    get:
+      tags:
+        - Ping
+      operationId: getPing
+      summary: Returns a simple ping response.
+      responses:
+        '200':
+          description: Successful ping response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+  /api/secure/ping:
+    get:
+      tags:
+        - SecurePing
+      operationId: getSecurePing
+      summary: Returns a secured ping response.
+      responses:
+        '200':
+          description: Successful ping response from a secured endpoint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/latency:
+    get:
+      tags:
+        - Latency
+      operationId: getLatency
+      summary: Executes a blocking expensive operation to simulate latency.
+      responses:
+        '200':
+          description: Successful execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatencyResponse'
+components:
+  schemas:
+    PingResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Ping response message.
+    LatencyResponse:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: integer
+          format: int64
+          description: Result of the expensive operation.
