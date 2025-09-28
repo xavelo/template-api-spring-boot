@@ -11,17 +11,16 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.xavelo</groupId>
-    <artifactId>brqt</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <groupId>com.xavelo.template.api</groupId>
+    <artifactId>spring-boot</artifactId>
+    <version>TRUNK-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>bad-religion-quotes-service</name>
-    <description>Bad Religion Quotes Service</description>
+    <name>Spring Boot API Template</name>
 
     <properties>
         <java.version>17</java.version>
         <docker.image.prefix>xavelo</docker.image.prefix>
-        <docker.image.name>bad-religion-quotes-service</docker.image.name>
+        <docker.image.name>api-template-spring-boot</docker.image.name>
         <openapi.generator.version>7.6.0</openapi.generator.version>
     </properties>
 

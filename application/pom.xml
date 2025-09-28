@@ -5,19 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.xavelo</groupId>
-        <artifactId>brqt</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>com.xavelo.template.api</groupId>
+        <artifactId>spring-boot</artifactId>
+        <version>TRUNK-SNAPSHOT</version>
     </parent>
 
-    <artifactId>brqt-application</artifactId>
-    <name>bad-religion-quotes-service-application</name>
-    <description>Application module for the Bad Religion Quotes Service</description>
+    <artifactId>application</artifactId>
+    <name>template-application</name>
+    <description>Template Application</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.xavelo</groupId>
-            <artifactId>brqt-api</artifactId>
+            <groupId>com.xavelo.template.api</groupId>
+            <artifactId>api</artifactId>
+            <version>TRUNK-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
