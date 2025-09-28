@@ -14,6 +14,8 @@
     <name>template-api</name>
     <description>Template API</description>
 
+    <packaging>jar</packaging>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -54,34 +56,82 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.5.0</version>
+                <version>${openapi.generator.version}</version>
                 <executions>
                     <execution>
-                        <id>generate-api-models</id>
+                        <id>generate-openapi-contract</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/openapi/template-api.yaml</inputSpec>
-                            <generatorName>java</generatorName>
-                            <output>${project.build.directory}/generated-sources</output>
-                            <generateApis>false</generateApis>
+                            <generatorName>spring</generatorName>
+                            <output>${project.build.directory}/generated-sources/openapi</output>
+                            <generateApiDocumentation>false</generateApiDocumentation>
                             <generateApiTests>false</generateApiTests>
-                            <generateModelTests>false</generateModelTests>
                             <generateModelDocumentation>false</generateModelDocumentation>
-                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateModelTests>false</generateModelTests>
+                            <generateSupportingFiles>true</generateSupportingFiles>
                             <additionalProperties>
-                                <additionalProperty>modelPackage=com.xavelo.template.api.api.model</additionalProperty>
+                                <additionalProperty>apiPackage=com.xavelo.template.api.contract.api</additionalProperty>
+                                <additionalProperty>basePackage=com.xavelo.template.api.contract</additionalProperty>
+                                <additionalProperty>modelPackage=com.xavelo.template.api.contract.model</additionalProperty>
                                 <additionalProperty>dateLibrary=java8</additionalProperty>
                                 <additionalProperty>modelNameSuffix=Dto</additionalProperty>
                                 <additionalProperty>useJakartaEe=true</additionalProperty>
                                 <additionalProperty>serializationLibrary=jackson</additionalProperty>
-                                <additionalProperty>library=resttemplate</additionalProperty>
+                                <additionalProperty>useTags=true</additionalProperty>
+                                <additionalProperty>useSpringBoot3=true</additionalProperty>
                             </additionalProperties>
                             <configOptions>
                                 <sourceFolder>src/main/java</sourceFolder>
+                                <interfaceOnly>true</interfaceOnly>
                             </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>package-openapi-sources</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>${project.basedir}/src/main/assembly/openapi-sources.xml</descriptor>
+                            </descriptors>
+                            <finalName>${project.artifactId}-${project.version}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-openapi-zip</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.artifactId}-${project.version}.zip</file>
+                                    <type>zip</type>
+                                    <classifier>openapi</classifier>
+                                </artifact>
+                            </artifacts>
                         </configuration>
                     </execution>
                 </executions>
