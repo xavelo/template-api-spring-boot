@@ -1,16 +1,15 @@
 package com.xavelo.template.api.adapter.in.http.latency;
 
+import com.xavelo.api.dto.LatencyResponse;
+import com.xavelo.api.interfaces.LatencyApi;
 import com.xavelo.template.port.in.SynchExpensiveOperationUseCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
-public class LatencyController {
+public class LatencyController implements LatencyApi {
 
     private static final Logger logger = LogManager.getLogger(LatencyController.class);
 
@@ -20,11 +19,11 @@ public class LatencyController {
         this.synchExpensiveOperationUseCase = synchExpensiveOperationUseCase;
     }
 
-    @GetMapping("/latency")
-    public ResponseEntity<LatencyResponse> latencySync() {
+    @Override
+    public ResponseEntity<LatencyResponse> getLatency() {
         Long value = synchExpensiveOperationUseCase.blockingExpensiveOperation();
-        LatencyResponse response = new LatencyResponse(value);
+        logger.info("Latency endpoint executed expensive operation with result: {}", value);
+        LatencyResponse response = new LatencyResponse().value(value);
         return ResponseEntity.ok(response);
     }
-
 }
