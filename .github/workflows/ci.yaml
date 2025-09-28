@@ -1,7 +1,7 @@
 name: CI/CD Pipeline
 
 env:
-  GIT_REPO: 'bad-religion-quotes-service'
+  GIT_REPO: 'template-api-spring-boot'
   K8S_DEPLOYMENT: 'bad-religion-quotes-service-deployment.yaml'
 
 on:
@@ -23,10 +23,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up JDK 17
+    - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
 
     - name: Cache Maven packages

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bad-religion-quotes-service-service
+  name: template-api-service
 spec:
   type: NodePort
   ports:
@@ -9,4 +9,4 @@ spec:
       targetPort: 8080
       nodePort: 30002
   selector:
-    app: bad-religion-quotes-service
+    app: template-api

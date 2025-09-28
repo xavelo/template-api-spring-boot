@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bad-religion-quotes-service-deployment
+  name: template-api-deployment
   annotations:
     commitID: "f40107293ae580b9fe7c6e2db6007b0ba9c7a37e"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bad-religion-quotes-service
+      app: template-api
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,10 +17,10 @@ spec:
   template:
     metadata:
       labels:
-        app: bad-religion-quotes-service
+        app: template-api
     spec:
       containers:
-        - name: bad-religion-quotes-service
-          image: 'xavelo/bad-religion-quotes-service:f40107293ae580b9fe7c6e2db6007b0ba9c7a37e'
+        - name: template-api
+          image: 'xavelo/template-api:f40107293ae580b9fe7c6e2db6007b0ba9c7a37e'
           ports:
             - containerPort: 80
