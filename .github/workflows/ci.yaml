@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 env:
   GIT_REPO: 'template-api-spring-boot'
-  K8S_DEPLOYMENT: 'bad-religion-quotes-service-deployment.yaml'
+  K8S_DEPLOYMENT: 'template-api-deployment.yaml'
 
 on:
   push:
