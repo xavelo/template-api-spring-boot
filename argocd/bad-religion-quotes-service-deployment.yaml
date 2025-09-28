@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: bad-religion-quotes-service-deployment
   annotations:
-    commitID: "744caf04a43615b76f864e436aeba0133f3a0b7e"
+    commitID: "a1ae2a5b200ce4262fb22e7419b0bfed8259a024"
 spec:
   replicas: 1
   selector:
@@ -21,6 +21,6 @@ spec:
     spec:
       containers:
         - name: bad-religion-quotes-service
-          image: 'xavelo/bad-religion-quotes-service:744caf04a43615b76f864e436aeba0133f3a0b7e'
+          image: 'xavelo/bad-religion-quotes-service:a1ae2a5b200ce4262fb22e7419b0bfed8259a024'
           ports:
             - containerPort: 80
