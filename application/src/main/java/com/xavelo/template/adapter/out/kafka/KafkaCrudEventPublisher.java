@@ -21,22 +21,7 @@ public class KafkaCrudEventPublisher implements CrudEventPublisher {
 
     @Override
     public void publishCrudCreated(CrudCreatedEvent event) {
-        kafkaTemplate.send(TOPIC_NAME, event.id(), event)
-            .addCallback(
-                result -> {
-                    if (result != null && result.getRecordMetadata() != null) {
-                        logger.info(
-                            "Published CrudObject created event for id {} to topic {} partition {} offset {}",
-                            event.id(),
-                            result.getRecordMetadata().topic(),
-                            result.getRecordMetadata().partition(),
-                            result.getRecordMetadata().offset()
-                        );
-                    } else {
-                        logger.info("Published CrudObject created event for id {}", event.id());
-                    }
-                },
-                throwable -> logger.error("Failed to publish CrudObject created event for id {}", event.id(), throwable)
-            );
+        kafkaTemplate.send(TOPIC_NAME, event.id(), event);
+        logger.info("Published CrudObject created event for id {}", event.id());
     }
 }
