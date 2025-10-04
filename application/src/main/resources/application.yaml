@@ -14,6 +14,10 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: xavelo
     password: template
+  flyway:
+    mysql:
+      enabled: true
+
 management:
   endpoints:
     web:

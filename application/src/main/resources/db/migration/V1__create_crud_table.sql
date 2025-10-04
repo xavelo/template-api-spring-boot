@@ -1,0 +1,9 @@
+CREATE TABLE crud (
+    id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_by VARCHAR(255) NOT NULL,
+    created_on TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_by VARCHAR(255),
+    modified_on TIMESTAMP WITH TIME ZONE
+);
