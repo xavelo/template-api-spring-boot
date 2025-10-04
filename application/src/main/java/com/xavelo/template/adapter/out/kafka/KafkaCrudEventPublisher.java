@@ -1,6 +1,7 @@
 package com.xavelo.template.adapter.out.kafka;
 
 import com.xavelo.template.application.port.out.CrudEventPublisher;
+import com.xavelo.template.application.port.out.CrudEventPublisher.CrudCreatedEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.kafka.core.KafkaTemplate;

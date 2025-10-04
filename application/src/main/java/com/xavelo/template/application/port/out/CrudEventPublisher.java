@@ -1,5 +1,7 @@
 package com.xavelo.template.application.port.out;
 
+import com.xavelo.template.application.port.out.CrudPort.CrudRecord;
+
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -26,7 +28,7 @@ public interface CrudEventPublisher {
             Objects.requireNonNull(updatedAt, "updatedAt must not be null");
         }
 
-        public static CrudCreatedEvent fromRecord(CrudPort.CrudRecord record) {
+        public static CrudCreatedEvent fromRecord(CrudRecord record) {
             Objects.requireNonNull(record, "record must not be null");
             return new CrudCreatedEvent(record.id(), record.name(), record.description(), record.createdAt(), record.updatedAt());
         }
