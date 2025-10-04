@@ -1,0 +1,293 @@
+openapi: 3.0.3
+info:
+  title: Crud API Template
+  version: 1.0.0
+  description: |
+    Template OpenAPI contract that defines CRUD operations for managing a generic
+    `CrudObject`. This specification can be used as scaffolding when implementing
+    REST endpoints backed by persistence stores.
+servers:
+  - url: /
+paths:
+  /api/crudobjects:
+    get:
+      tags:
+        - CrudObjects
+      operationId: listCrudObjects
+      summary: Retrieves a paginated list of CrudObjects.
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index to retrieve.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: size
+          in: query
+          description: Number of records to include in each page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 20
+        - name: sort
+          in: query
+          description: Sorting definition in the form `property,(asc|desc)`.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved CrudObjects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrudObjectPage'
+        '400':
+          description: Invalid request parameters supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - CrudObjects
+      operationId: createCrudObject
+      summary: Creates a new CrudObject.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrudObjectCreateRequest'
+      responses:
+        '201':
+          description: CrudObject successfully created.
+          headers:
+            Location:
+              description: URI of the newly created CrudObject.
+              schema:
+                type: string
+        '400':
+          description: Invalid CrudObject payload supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/crudobjects/{crudObjectId}:
+    parameters:
+      - $ref: '#/components/parameters/CrudObjectIdPath'
+    get:
+      tags:
+        - CrudObjects
+      operationId: getCrudObject
+      summary: Retrieves a single CrudObject by its identifier.
+      responses:
+        '200':
+          description: CrudObject successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrudObject'
+        '404':
+          description: CrudObject not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - CrudObjects
+      operationId: replaceCrudObject
+      summary: Replaces a CrudObject with the provided representation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrudObjectUpdateRequest'
+      responses:
+        '200':
+          description: CrudObject successfully replaced.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrudObject'
+        '400':
+          description: Invalid CrudObject payload supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: CrudObject not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      tags:
+        - CrudObjects
+      operationId: updateCrudObject
+      summary: Applies a partial update to a CrudObject.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrudObjectPatchRequest'
+      responses:
+        '200':
+          description: CrudObject successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrudObject'
+        '400':
+          description: Invalid patch payload supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: CrudObject not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - CrudObjects
+      operationId: deleteCrudObject
+      summary: Deletes a CrudObject by its identifier.
+      responses:
+        '204':
+          description: CrudObject successfully deleted.
+        '404':
+          description: CrudObject not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  parameters:
+    CrudObjectIdPath:
+      name: crudObjectId
+      in: path
+      description: Unique identifier of the CrudObject.
+      required: true
+      schema:
+        type: string
+  schemas:
+    CrudObject:
+      type: object
+      description: Representation of a CrudObject persisted in the system.
+      required:
+        - id
+        - name
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          description: Server-assigned unique identifier.
+        name:
+          type: string
+          description: Human readable name for the CrudObject.
+        description:
+          type: string
+          nullable: true
+          description: Optional descriptive text.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp indicating when the CrudObject was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent update to the CrudObject.
+    CrudObjectCreateRequest:
+      type: object
+      description: Payload used when creating a new CrudObject.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Human readable name for the CrudObject.
+        description:
+          type: string
+          nullable: true
+          description: Optional descriptive text.
+    CrudObjectUpdateRequest:
+      type: object
+      description: Complete representation used when replacing an existing CrudObject.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Human readable name for the CrudObject.
+        description:
+          type: string
+          nullable: true
+          description: Optional descriptive text.
+    CrudObjectPatchRequest:
+      type: object
+      description: Partial representation of a CrudObject used for PATCH operations.
+      properties:
+        name:
+          type: string
+          description: Human readable name for the CrudObject.
+        description:
+          type: string
+          nullable: true
+          description: Optional descriptive text.
+    CrudObjectPage:
+      type: object
+      description: Paginated collection of CrudObjects.
+      required:
+        - content
+        - page
+        - size
+        - totalElements
+        - totalPages
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrudObject'
+        page:
+          type: integer
+          minimum: 0
+          description: Current page index.
+        size:
+          type: integer
+          minimum: 1
+          description: Size of the page that was requested.
+        totalElements:
+          type: integer
+          minimum: 0
+          description: Total number of CrudObjects available.
+        totalPages:
+          type: integer
+          minimum: 0
+          description: Total number of pages available.
+    ErrorResponse:
+      type: object
+      description: Generic error response payload.
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Human readable description of the error.
+        details:
+          type: array
+          nullable: true
+          description: Optional list of field level validation errors.
+          items:
+            type: string
