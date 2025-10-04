@@ -1,4 +1,4 @@
-package com.xavelo.template.metrics;
+package com.xavelo.common.metrics;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

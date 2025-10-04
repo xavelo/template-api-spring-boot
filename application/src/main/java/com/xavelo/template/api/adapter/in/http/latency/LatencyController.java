@@ -2,9 +2,9 @@ package com.xavelo.template.api.adapter.in.http.latency;
 
 import com.xavelo.template.api.contract.api.LatencyApi;
 import com.xavelo.template.api.contract.model.LatencyResponseDto;
-import com.xavelo.template.metrics.Adapter;
-import com.xavelo.template.metrics.AdapterMetrics;
-import com.xavelo.template.metrics.CountAdapterInvocation;
+import com.xavelo.common.metrics.Adapter;
+import com.xavelo.common.metrics.AdapterMetrics;
+import com.xavelo.common.metrics.CountAdapterInvocation;
 import com.xavelo.template.port.in.SynchExpensiveOperationUseCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,4 +1,4 @@
-package com.xavelo.template.metrics;
+package com.xavelo.common.metrics;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

@@ -1,4 +1,4 @@
-package com.xavelo.template.metrics;
+package com.xavelo.common.metrics;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Metrics;

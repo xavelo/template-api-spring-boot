@@ -1,4 +1,4 @@
-package com.xavelo.template.metrics;
+package com.xavelo.common.metrics;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
