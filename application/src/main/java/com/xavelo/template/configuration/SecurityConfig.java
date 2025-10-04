@@ -15,9 +15,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/ping/**").permitAll()
-                        .requestMatchers("/api/latency/**").permitAll()
-                        .requestMatchers("/api/crud/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/api/secure/**").hasAuthority(TEMPLATE_API_SCOPE)
                         .anyRequest().authenticated()
                         //.anyRequest().permitAll()
