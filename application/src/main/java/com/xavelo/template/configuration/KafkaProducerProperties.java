@@ -1,19 +1,10 @@
 package com.xavelo.template.configuration;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
-import java.util.Objects;
-
+@Validated
 @ConfigurationProperties(prefix = "kafka")
-public class KafkaProducerProperties {
-
-    private final String bootstrapServers;
-
-    public KafkaProducerProperties(String bootstrapServers) {
-        this.bootstrapServers = Objects.requireNonNull(bootstrapServers, "bootstrapServers must not be null");
-    }
-
-    public String getBootstrapServers() {
-        return bootstrapServers;
-    }
+public record KafkaProducerProperties(@NotBlank String bootstrapServers) {
 }
