@@ -12,8 +12,8 @@ spring:
   datasource:
     url: jdbc:mysql://template-mysql.mysql.svc.cluster.local:3306/template-app
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: xavelo
-    password: template
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
   flyway:
     mysql:
       enabled: true
