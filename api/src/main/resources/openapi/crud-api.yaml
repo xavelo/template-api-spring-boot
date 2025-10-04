@@ -12,7 +12,7 @@ paths:
   /api/crudobjects:
     get:
       tags:
-        - CrudObjects
+        - Crud
       operationId: listCrudObjects
       summary: Retrieves a paginated list of CrudObjects.
       parameters:
@@ -54,7 +54,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
-        - CrudObjects
+        - Crud
       operationId: createCrudObject
       summary: Creates a new CrudObject.
       requestBody:
@@ -82,7 +82,7 @@ paths:
       - $ref: '#/components/parameters/CrudObjectIdPath'
     get:
       tags:
-        - CrudObjects
+        - Crud
       operationId: getCrudObject
       summary: Retrieves a single CrudObject by its identifier.
       responses:
@@ -100,7 +100,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
       tags:
-        - CrudObjects
+        - Crud
       operationId: replaceCrudObject
       summary: Replaces a CrudObject with the provided representation.
       requestBody:
@@ -130,7 +130,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     patch:
       tags:
-        - CrudObjects
+        - Crud
       operationId: updateCrudObject
       summary: Applies a partial update to a CrudObject.
       requestBody:
@@ -160,7 +160,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
       tags:
-        - CrudObjects
+        - Crud
       operationId: deleteCrudObject
       summary: Deletes a CrudObject by its identifier.
       responses:
