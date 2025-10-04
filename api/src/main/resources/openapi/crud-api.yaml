@@ -98,80 +98,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-    put:
-      tags:
-        - Crud
-      operationId: replaceCrudObject
-      summary: Replaces a CrudObject with the provided representation.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CrudObjectUpdateRequest'
-      responses:
-        '200':
-          description: CrudObject successfully replaced.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CrudObject'
-        '400':
-          description: Invalid CrudObject payload supplied.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: CrudObject not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-    patch:
-      tags:
-        - Crud
-      operationId: updateCrudObject
-      summary: Applies a partial update to a CrudObject.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CrudObjectPatchRequest'
-      responses:
-        '200':
-          description: CrudObject successfully updated.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CrudObject'
-        '400':
-          description: Invalid patch payload supplied.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: CrudObject not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-    delete:
-      tags:
-        - Crud
-      operationId: deleteCrudObject
-      summary: Deletes a CrudObject by its identifier.
-      responses:
-        '204':
-          description: CrudObject successfully deleted.
-        '404':
-          description: CrudObject not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
 components:
   parameters:
     CrudObjectIdPath:
@@ -214,30 +140,6 @@ components:
       description: Payload used when creating a new CrudObject.
       required:
         - name
-      properties:
-        name:
-          type: string
-          description: Human readable name for the CrudObject.
-        description:
-          type: string
-          nullable: true
-          description: Optional descriptive text.
-    CrudObjectUpdateRequest:
-      type: object
-      description: Complete representation used when replacing an existing CrudObject.
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          description: Human readable name for the CrudObject.
-        description:
-          type: string
-          nullable: true
-          description: Optional descriptive text.
-    CrudObjectPatchRequest:
-      type: object
-      description: Partial representation of a CrudObject used for PATCH operations.
       properties:
         name:
           type: string

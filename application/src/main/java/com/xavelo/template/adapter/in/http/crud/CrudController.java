@@ -7,8 +7,6 @@ import com.xavelo.template.api.contract.api.CrudApi;
 import com.xavelo.template.api.contract.model.CrudObjectCreateRequestDto;
 import com.xavelo.template.api.contract.model.CrudObjectDto;
 import com.xavelo.template.api.contract.model.CrudObjectPageDto;
-import com.xavelo.template.api.contract.model.CrudObjectPatchRequestDto;
-import com.xavelo.template.api.contract.model.CrudObjectUpdateRequestDto;
 import com.xavelo.template.application.port.in.CrudUseCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,27 +56,4 @@ public class CrudController implements CrudApi {
         return ResponseEntity.created(location).build();
     }
 
-    @CountAdapterInvocation(name = "crud-replace", direction = AdapterMetrics.Direction.IN, type = AdapterMetrics.Type.HTTP)
-    @Override
-    public ResponseEntity<CrudObjectDto> replaceCrudObject(String crudObjectId, CrudObjectUpdateRequestDto crudObjectUpdateRequestDto) {
-        CrudObjectDto replaced = crudUseCase.replaceCrudObject(crudObjectId, crudObjectUpdateRequestDto);
-        logger.info("Replaced CrudObject {}", crudObjectId);
-        return ResponseEntity.ok(replaced);
-    }
-
-    @CountAdapterInvocation(name = "crud-update", direction = AdapterMetrics.Direction.IN, type = AdapterMetrics.Type.HTTP)
-    @Override
-    public ResponseEntity<CrudObjectDto> updateCrudObject(String crudObjectId, CrudObjectPatchRequestDto crudObjectPatchRequestDto) {
-        CrudObjectDto updated = crudUseCase.updateCrudObject(crudObjectId, crudObjectPatchRequestDto);
-        logger.info("Updated CrudObject {}", crudObjectId);
-        return ResponseEntity.ok(updated);
-    }
-
-    @CountAdapterInvocation(name = "crud-delete", direction = AdapterMetrics.Direction.IN, type = AdapterMetrics.Type.HTTP)
-    @Override
-    public ResponseEntity<Void> deleteCrudObject(String crudObjectId) {
-        crudUseCase.deleteCrudObject(crudObjectId);
-        logger.info("Deleted CrudObject {}", crudObjectId);
-        return ResponseEntity.noContent().build();
-    }
 }
