@@ -17,8 +17,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/api/secure/**").hasAuthority(TEMPLATE_API_SCOPE)
-                        .anyRequest().authenticated()
-                        //.anyRequest().permitAll()
+                        //.anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt());
 
