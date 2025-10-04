@@ -17,6 +17,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/ping/**").permitAll()
                         .requestMatchers("/api/latency/**").permitAll()
+                        .requestMatchers("/api/crud/**").permitAll()
                         .requestMatchers("/api/secure/**").hasAuthority(TEMPLATE_API_SCOPE)
                         .anyRequest().authenticated()
                         //.anyRequest().permitAll()

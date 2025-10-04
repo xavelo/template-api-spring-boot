@@ -18,8 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-@RestController
 @Adapter
+@RestController
 public class CrudController implements CrudApi {
 
     private static final Logger logger = LogManager.getLogger(CrudController.class);
