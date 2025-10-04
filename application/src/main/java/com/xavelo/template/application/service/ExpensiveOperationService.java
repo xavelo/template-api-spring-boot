@@ -1,6 +1,6 @@
-package com.xavelo.template.api.application.service;
+package com.xavelo.template.application.service;
 
-import com.xavelo.template.port.in.SynchExpensiveOperationUseCase;
+import com.xavelo.template.application.port.in.SynchExpensiveOperationUseCase;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;

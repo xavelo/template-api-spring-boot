@@ -1,4 +1,4 @@
-package com.xavelo.template.api.adapter.in.http.ping;
+package com.xavelo.template.adapter.in.http.ping;
 
 import com.xavelo.template.api.contract.api.PingApi;
 import com.xavelo.template.api.contract.model.PingResponseDto;
@@ -22,7 +22,7 @@ public class PingController implements PingApi {
 
     @Override
     @CountAdapterInvocation(
-            name = "ping-http-in",
+            name = "ping",
             type = AdapterMetrics.Type.HTTP,
             direction = AdapterMetrics.Direction.IN)
     public ResponseEntity<PingResponseDto> getPing() {

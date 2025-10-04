@@ -1,4 +1,4 @@
-package com.xavelo.template.api.adapter.in.http.secure;
+package com.xavelo.template.adapter.in.http.secure;
 
 import com.xavelo.template.api.contract.api.SecurePingApi;
 import com.xavelo.template.api.contract.model.PingResponseDto;
@@ -22,7 +22,7 @@ public class SecurePingController implements SecurePingApi {
 
     @Override
     @CountAdapterInvocation(
-            name = "secure-ping-http-in",
+            name = "secure-ping",
             type = AdapterMetrics.Type.HTTP,
             direction = AdapterMetrics.Direction.IN)
     public ResponseEntity<PingResponseDto> getSecurePing() {

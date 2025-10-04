@@ -1,11 +1,11 @@
-package com.xavelo.template.api.adapter.in.http.latency;
+package com.xavelo.template.adapter.in.http.latency;
 
 import com.xavelo.template.api.contract.api.LatencyApi;
 import com.xavelo.template.api.contract.model.LatencyResponseDto;
 import com.xavelo.common.metrics.Adapter;
 import com.xavelo.common.metrics.AdapterMetrics;
 import com.xavelo.common.metrics.CountAdapterInvocation;
-import com.xavelo.template.port.in.SynchExpensiveOperationUseCase;
+import com.xavelo.template.application.port.in.SynchExpensiveOperationUseCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class LatencyController implements LatencyApi {
 
     @Override
     @CountAdapterInvocation(
-            name = "latency-http-in",
+            name = "latency",
             type = AdapterMetrics.Type.HTTP,
             direction = AdapterMetrics.Direction.IN)
     public ResponseEntity<LatencyResponseDto> getLatency() {
