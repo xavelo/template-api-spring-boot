@@ -36,19 +36,6 @@ paths:
           description: Unauthorized
         '403':
           description: Forbidden
-  /api/latency:
-    get:
-      tags:
-        - Latency
-      operationId: getLatency
-      summary: Executes a blocking expensive operation to simulate latency.
-      responses:
-        '200':
-          description: Successful execution.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LatencyResponse'
 components:
   schemas:
     PingResponse:
@@ -59,12 +46,3 @@ components:
         message:
           type: string
           description: Ping response message.
-    LatencyResponse:
-      type: object
-      required:
-        - value
-      properties:
-        value:
-          type: integer
-          format: int64
-          description: Result of the expensive operation.
