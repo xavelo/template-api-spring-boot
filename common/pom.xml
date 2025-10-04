@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.xavelo.template.api</groupId>
+        <groupId>com.xavelo.template.app</groupId>
         <artifactId>spring-boot</artifactId>
         <version>TRUNK-SNAPSHOT</version>
     </parent>

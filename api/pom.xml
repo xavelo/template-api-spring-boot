@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.xavelo.template.api</groupId>
+        <groupId>com.xavelo.template.app</groupId>
         <artifactId>spring-boot</artifactId>
         <version>TRUNK-SNAPSHOT</version>
     </parent>
 
     <artifactId>api</artifactId>
-    <name>template-api</name>
-    <description>Template API</description>
+    <name>template-app</name>
+    <description>API definifition for Template App</description>
 
     <packaging>jar</packaging>
 

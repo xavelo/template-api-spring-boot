@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.xavelo.template.api</groupId>
+        <groupId>com.xavelo.template.app</groupId>
         <artifactId>spring-boot</artifactId>
         <version>TRUNK-SNAPSHOT</version>
     </parent>
@@ -16,12 +16,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.xavelo.template.api</groupId>
+            <groupId>com.xavelo.template.app</groupId>
             <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.xavelo.template.api</groupId>
+            <groupId>com.xavelo.template.app</groupId>
             <artifactId>api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -69,7 +69,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.xavelo.template.api</groupId>
+                                    <groupId>com.xavelo.template.app</groupId>
                                     <artifactId>api</artifactId>
                                     <version>${project.version}</version>
                                     <classifier>openapi</classifier>

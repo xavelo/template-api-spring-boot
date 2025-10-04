@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: template-api-deployment
+  name: template-app-deployment
   annotations:
-    commitID: "324592ff9aa8eebabda8c218c409d8e886ab5c15"
+    commitID: "04056ea0bc8fc48fe55907563266ecaeb5d36a6a"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: template-api
+      app: template-app
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,10 +17,10 @@ spec:
   template:
     metadata:
       labels:
-        app: template-api
+        app: template-app
     spec:
       containers:
-        - name: template-api
-          image: 'xavelo/template-api-spring-boot:324592ff9aa8eebabda8c218c409d8e886ab5c15'
+        - name: template-app
+          image: 'xavelo/template-app-spring-boot:04056ea0bc8fc48fe55907563266ecaeb5d36a6a'
           ports:
             - containerPort: 80
