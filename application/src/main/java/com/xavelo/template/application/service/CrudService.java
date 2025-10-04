@@ -3,8 +3,10 @@ package com.xavelo.template.application.service;
 import com.xavelo.template.api.contract.model.CrudObjectCreateRequestDto;
 import com.xavelo.template.api.contract.model.CrudObjectDto;
 import com.xavelo.template.api.contract.model.CrudObjectPageDto;
+import com.xavelo.template.application.domain.CrudObject;
 import com.xavelo.template.application.exception.CrudObjectNotFoundException;
 import com.xavelo.template.application.port.in.CrudUseCase;
+import com.xavelo.template.application.port.out.CrudObjectCreatedPort;
 import com.xavelo.template.application.port.out.CrudPort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,9 +28,11 @@ public class CrudService implements CrudUseCase {
     private static final Logger logger = LogManager.getLogger(CrudService.class);
 
     private final CrudPort crudPort;
+    private final CrudObjectCreatedPort crudObjectCreatedPort;
 
-    public CrudService(CrudPort crudPort) {
+    public CrudService(CrudPort crudPort, CrudObjectCreatedPort crudObjectCreatedPort) {
         this.crudPort = crudPort;
+        this.crudObjectCreatedPort = crudObjectCreatedPort;
     }
 
     @Override
@@ -72,6 +76,7 @@ public class CrudService implements CrudUseCase {
             now
         );
         CrudPort.CrudRecord stored = crudPort.save(toPersist);
+        crudObjectCreatedPort.publishCrudObectCreated(new CrudObject(stored.id(), stored.name()));
         logger.info("Created CrudObject with id {}", stored.id());
         return toDto(stored);
     }

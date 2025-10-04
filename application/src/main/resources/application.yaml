@@ -3,20 +3,27 @@ debug: true
 spring:
   application:
     name: template-app
+
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: https://http://192.168.1.139:32080/realms/xavelo
           jwk-set-uri: https://http://192.168.1.139:32080/realms/xavelo/protocol/openid-connect/certs
+
   datasource:
     url: jdbc:mysql://template-mysql.mysql.svc.cluster.local:3306/template-app
     driverClassName: com.mysql.cj.jdbc.Driver
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
   flyway:
+    baseline-on-migrate: true
     mysql:
       enabled: true
+
+  kafka:
+    bootstrap-servers: my-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092
+
 
 management:
   endpoints:

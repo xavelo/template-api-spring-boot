@@ -1,4 +1,4 @@
-package com.xavelo.template.adapter.out;
+package com.xavelo.template.adapter.out.mysql;
 
 import com.xavelo.common.metrics.Adapter;
 import com.xavelo.template.application.port.out.CrudPort;
