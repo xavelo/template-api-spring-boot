@@ -30,4 +30,20 @@ public interface CrudPort {
      * @return the persisted entity
      */
     CrudObjectEntity insert(CrudObjectEntity entity);
+
+    /**
+     * Updates an existing crud object in the data store.
+     *
+     * @param entity the updated representation of the object
+     * @return {@code true} when the entity was updated, {@code false} otherwise
+     */
+    boolean update(CrudObjectEntity entity);
+
+    /**
+     * Deletes a crud object by its identifier.
+     *
+     * @param id the identifier of the object to delete
+     * @return {@code true} when the entity was removed, {@code false} otherwise
+     */
+    boolean deleteById(String id);
 }

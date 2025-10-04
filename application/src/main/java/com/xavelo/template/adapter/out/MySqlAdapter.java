@@ -74,6 +74,27 @@ public class MySqlAdapter implements CrudPort {
         return entity;
     }
 
+    @Override
+    public boolean update(CrudObjectEntity entity) {
+        String sql = "UPDATE crud SET name = :name, description = :description, modified_by = :modifiedBy, modified_on = :modifiedOn " +
+            "WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+            .addValue("id", entity.getId())
+            .addValue("name", entity.getName())
+            .addValue("description", entity.getDescription())
+            .addValue("modifiedBy", DEFAULT_ACTOR)
+            .addValue("modifiedOn", toTimestamp(entity.getUpdatedAt()));
+        return jdbcTemplate.update(sql, params) > 0;
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        String sql = "DELETE FROM crud WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+            .addValue("id", id);
+        return jdbcTemplate.update(sql, params) > 0;
+    }
+
     private static Timestamp toTimestamp(OffsetDateTime dateTime) {
         return Timestamp.from(dateTime.toInstant());
     }

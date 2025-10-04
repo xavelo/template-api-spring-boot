@@ -3,6 +3,8 @@ package com.xavelo.template.application.service;
 import com.xavelo.template.api.contract.model.CrudObjectCreateRequestDto;
 import com.xavelo.template.api.contract.model.CrudObjectDto;
 import com.xavelo.template.api.contract.model.CrudObjectPageDto;
+import com.xavelo.template.api.contract.model.CrudObjectPatchRequestDto;
+import com.xavelo.template.api.contract.model.CrudObjectUpdateRequestDto;
 import com.xavelo.template.application.exception.CrudObjectNotFoundException;
 import com.xavelo.template.application.port.in.CrudUseCase;
 import com.xavelo.template.application.port.out.CrudObjectEntity;
@@ -72,6 +74,45 @@ public class CrudService implements CrudUseCase {
         CrudObjectEntity persisted = crudPort.insert(entity);
         logger.info("Created CrudObject with id {}", id);
         return toDto(persisted);
+    }
+
+    @Override
+    public CrudObjectDto replaceCrudObject(String crudObjectId, CrudObjectUpdateRequestDto request) {
+        CrudObjectEntity existing = findRequired(crudObjectId);
+        existing.setName(request.getName());
+        existing.setDescription(extractDescription(request.getDescription()));
+        existing.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
+        if (!crudPort.update(existing)) {
+            throw new CrudObjectNotFoundException(crudObjectId);
+        }
+        logger.info("Replaced CrudObject with id {}", crudObjectId);
+        return toDto(existing);
+    }
+
+    @Override
+    public CrudObjectDto updateCrudObject(String crudObjectId, CrudObjectPatchRequestDto request) {
+        CrudObjectEntity existing = findRequired(crudObjectId);
+        if (request.getName() != null) {
+            existing.setName(request.getName());
+        }
+        JsonNullable<String> description = request.getDescription();
+        if (description != null && description.isPresent()) {
+            existing.setDescription(description.get());
+        }
+        existing.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
+        if (!crudPort.update(existing)) {
+            throw new CrudObjectNotFoundException(crudObjectId);
+        }
+        logger.info("Updated CrudObject with id {}", crudObjectId);
+        return toDto(existing);
+    }
+
+    @Override
+    public void deleteCrudObject(String crudObjectId) {
+        if (!crudPort.deleteById(crudObjectId)) {
+            throw new CrudObjectNotFoundException(crudObjectId);
+        }
+        logger.info("Deleted CrudObject with id {}", crudObjectId);
     }
 
     private CrudObjectEntity findRequired(String crudObjectId) {
