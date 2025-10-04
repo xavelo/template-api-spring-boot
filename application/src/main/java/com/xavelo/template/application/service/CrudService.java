@@ -3,8 +3,6 @@ package com.xavelo.template.application.service;
 import com.xavelo.template.api.contract.model.CrudObjectCreateRequestDto;
 import com.xavelo.template.api.contract.model.CrudObjectDto;
 import com.xavelo.template.api.contract.model.CrudObjectPageDto;
-import com.xavelo.template.api.contract.model.CrudObjectPatchRequestDto;
-import com.xavelo.template.api.contract.model.CrudObjectUpdateRequestDto;
 import com.xavelo.template.application.exception.CrudObjectNotFoundException;
 import com.xavelo.template.application.port.in.CrudUseCase;
 import org.apache.logging.log4j.LogManager;
@@ -74,40 +72,6 @@ public class CrudService implements CrudUseCase {
         dataStore.put(id, record);
         logger.info("Created CrudObject with id {}", id);
         return toDto(record);
-    }
-
-    @Override
-    public CrudObjectDto replaceCrudObject(String crudObjectId, CrudObjectUpdateRequestDto request) {
-        CrudRecord existing = findRequired(crudObjectId);
-        existing.setName(request.getName());
-        existing.setDescription(extractDescription(request.getDescription()));
-        existing.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
-        logger.info("Replaced CrudObject with id {}", crudObjectId);
-        return toDto(existing);
-    }
-
-    @Override
-    public CrudObjectDto updateCrudObject(String crudObjectId, CrudObjectPatchRequestDto request) {
-        CrudRecord existing = findRequired(crudObjectId);
-        if (request.getName() != null) {
-            existing.setName(request.getName());
-        }
-        JsonNullable<String> description = request.getDescription();
-        if (description != null && description.isPresent()) {
-            existing.setDescription(description.get());
-        }
-        existing.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
-        logger.info("Patched CrudObject with id {}", crudObjectId);
-        return toDto(existing);
-    }
-
-    @Override
-    public void deleteCrudObject(String crudObjectId) {
-        CrudRecord removed = dataStore.remove(crudObjectId);
-        if (removed == null) {
-            throw new CrudObjectNotFoundException(crudObjectId);
-        }
-        logger.info("Deleted CrudObject with id {}", crudObjectId);
     }
 
     private CrudRecord findRequired(String crudObjectId) {
@@ -201,16 +165,5 @@ public class CrudService implements CrudUseCase {
             return updatedAt;
         }
 
-        private void setName(String name) {
-            this.name = name;
-        }
-
-        private void setDescription(String description) {
-            this.description = description;
-        }
-
-        private void setUpdatedAt(OffsetDateTime updatedAt) {
-            this.updatedAt = updatedAt;
-        }
     }
 }
