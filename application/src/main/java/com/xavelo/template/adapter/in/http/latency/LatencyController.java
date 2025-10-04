@@ -11,8 +11,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @Adapter
+@RestController
 public class LatencyController implements LatencyApi {
 
     private static final Logger logger = LogManager.getLogger(LatencyController.class);
@@ -23,11 +23,11 @@ public class LatencyController implements LatencyApi {
         this.synchExpensiveOperationUseCase = synchExpensiveOperationUseCase;
     }
 
-    @Override
     @CountAdapterInvocation(
             name = "latency",
-            type = AdapterMetrics.Type.HTTP,
-            direction = AdapterMetrics.Direction.IN)
+            direction = AdapterMetrics.Direction.IN,
+            type = AdapterMetrics.Type.HTTP)
+    @Override
     public ResponseEntity<LatencyResponseDto> getLatency() {
         Long value = synchExpensiveOperationUseCase.blockingExpensiveOperation();
         logger.info("Latency endpoint executed expensive operation with result: {}", value);

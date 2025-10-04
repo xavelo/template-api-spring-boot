@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @Adapter
+@RestController
 public class PingController implements PingApi {
 
     private static final Logger logger = LogManager.getLogger(PingController.class);
@@ -20,11 +20,12 @@ public class PingController implements PingApi {
     @Value("${HOSTNAME:unknown}")
     private String podName;
 
-    @Override
+
     @CountAdapterInvocation(
             name = "ping",
-            type = AdapterMetrics.Type.HTTP,
-            direction = AdapterMetrics.Direction.IN)
+            direction = AdapterMetrics.Direction.IN,
+            type = AdapterMetrics.Type.HTTP)
+    @Override
     public ResponseEntity<PingResponseDto> getPing() {
         String message = "pong from " + podName;
         logger.info("Responding to /api/ping with message: {}", message);

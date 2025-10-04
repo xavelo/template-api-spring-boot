@@ -12,19 +12,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Adapter("")
+@Adapter
 public class SecurePingController implements SecurePingApi {
 
     private static final Logger logger = LogManager.getLogger(SecurePingController.class);
 
     @Value("${HOSTNAME:unknown}")
     private String podName;
-
-    @Override
+    
     @CountAdapterInvocation(
-            name = "secure-ping",
-            type = AdapterMetrics.Type.HTTP,
-            direction = AdapterMetrics.Direction.IN)
+        name = "secure-ping",
+        direction = AdapterMetrics.Direction.IN,
+        type = AdapterMetrics.Type.HTTP)
+    @Override
     public ResponseEntity<PingResponseDto> getSecurePing() {
         String message = "pong from " + podName;
         logger.info("Responding to /api/secure/ping with message: {}", message);

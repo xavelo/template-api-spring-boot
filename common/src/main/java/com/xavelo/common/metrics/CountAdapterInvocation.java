@@ -14,6 +14,6 @@ import java.lang.annotation.Target;
 @Documented
 public @interface CountAdapterInvocation {
     String name();
-    AdapterMetrics.Type type();
     AdapterMetrics.Direction direction();
+    AdapterMetrics.Type type();
 }
