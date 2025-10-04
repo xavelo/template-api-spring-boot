@@ -1,4 +1,4 @@
-CREATE TABLE crud (
+CREATE TABLE IF NOT EXISTS crud (
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
