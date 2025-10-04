@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Adapter(name = "latency-http-in", type = AdapterMetrics.Type.HTTP, direction = AdapterMetrics.Direction.IN)
+@Adapter
 public class LatencyController implements LatencyApi {
 
     private static final Logger logger = LogManager.getLogger(LatencyController.class);

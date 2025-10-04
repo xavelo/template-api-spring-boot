@@ -13,10 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface CountAdapterInvocation {
-
     String name();
-
     AdapterMetrics.Type type();
-
     AdapterMetrics.Direction direction();
 }
