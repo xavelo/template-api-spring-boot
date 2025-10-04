@@ -9,6 +9,11 @@ spring:
         jwt:
           issuer-uri: https://http://192.168.1.139:32080/realms/xavelo
           jwk-set-uri: https://http://192.168.1.139:32080/realms/xavelo/protocol/openid-connect/certs
+  datasource:
+    url: jdbc:mysql://template-mysql.mysql.svc.cluster.local:3306/template-app
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: xavelo
+    password: template
 management:
   endpoints:
     web:
