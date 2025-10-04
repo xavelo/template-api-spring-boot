@@ -20,7 +20,6 @@ public class PingController implements PingApi {
     @Value("${HOSTNAME:unknown}")
     private String podName;
 
-
     @CountAdapterInvocation(
             name = "ping",
             direction = AdapterMetrics.Direction.IN,

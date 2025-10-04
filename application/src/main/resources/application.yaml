@@ -1,8 +1,8 @@
-debug: false
+debug: true
 
 spring:
   application:
-    name: template-api
+    name: template-app
   security:
     oauth2:
       resourceserver:
@@ -13,4 +13,5 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,info,metrics" 
+        include: "health,info,metrics"
+
