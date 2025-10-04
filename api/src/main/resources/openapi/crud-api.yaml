@@ -9,7 +9,7 @@ info:
 servers:
   - url: /
 paths:
-  /api/crudobjects:
+  /api/crud:
     get:
       tags:
         - Crud
