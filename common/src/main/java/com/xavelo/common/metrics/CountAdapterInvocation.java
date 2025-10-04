@@ -1,4 +1,4 @@
-package com.xavelo.template.metrics;
+package com.xavelo.common.metrics;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

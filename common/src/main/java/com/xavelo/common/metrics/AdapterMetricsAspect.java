@@ -1,4 +1,4 @@
-package com.xavelo.template.metrics;
+package com.xavelo.common.metrics;
 
 import java.time.Instant;
 import org.aspectj.lang.ProceedingJoinPoint;

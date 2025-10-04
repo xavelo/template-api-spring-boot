@@ -2,9 +2,9 @@ package com.xavelo.template.api.adapter.in.http.secure;
 
 import com.xavelo.template.api.contract.api.SecurePingApi;
 import com.xavelo.template.api.contract.model.PingResponseDto;
-import com.xavelo.template.metrics.Adapter;
-import com.xavelo.template.metrics.AdapterMetrics;
-import com.xavelo.template.metrics.CountAdapterInvocation;
+import com.xavelo.common.metrics.Adapter;
+import com.xavelo.common.metrics.AdapterMetrics;
+import com.xavelo.common.metrics.CountAdapterInvocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
