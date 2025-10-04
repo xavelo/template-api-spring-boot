@@ -3,10 +3,10 @@ package com.xavelo.template.application.service;
 import com.xavelo.template.api.contract.model.CrudObjectCreateRequestDto;
 import com.xavelo.template.api.contract.model.CrudObjectDto;
 import com.xavelo.template.api.contract.model.CrudObjectPageDto;
-import com.xavelo.template.api.contract.model.CrudObjectPatchRequestDto;
-import com.xavelo.template.api.contract.model.CrudObjectUpdateRequestDto;
 import com.xavelo.template.application.exception.CrudObjectNotFoundException;
 import com.xavelo.template.application.port.in.CrudUseCase;
+import com.xavelo.template.application.port.out.CrudObjectEntity;
+import com.xavelo.template.application.port.out.CrudPort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -17,22 +17,20 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Mock implementation of {@link CrudUseCase} that keeps entities in memory.
+ * Application service that orchestrates CRUD operations and delegates persistence to {@link CrudPort}.
  */
 @Service
 public class CrudService implements CrudUseCase {
 
     private static final Logger logger = LogManager.getLogger(CrudService.class);
 
-    private final Map<String, CrudRecord> dataStore = new ConcurrentHashMap<>();
+    private final CrudPort crudPort;
 
-    public CrudService() {
-        seedData();
+    public CrudService(CrudPort crudPort) {
+        this.crudPort = crudPort;
     }
 
     @Override
@@ -40,7 +38,7 @@ public class CrudService implements CrudUseCase {
         int resolvedPage = page == null || page < 0 ? 0 : page;
         int resolvedSize = size == null || size < 1 ? 20 : size;
 
-        List<CrudRecord> ordered = dataStore.values().stream()
+        List<CrudObjectEntity> ordered = crudPort.findAll().stream()
             .sorted(resolveComparator(sort))
             .toList();
 
@@ -62,88 +60,51 @@ public class CrudService implements CrudUseCase {
 
     @Override
     public CrudObjectDto getCrudObject(String crudObjectId) {
-        CrudRecord record = findRequired(crudObjectId);
-        return toDto(record);
+        CrudObjectEntity entity = findRequired(crudObjectId);
+        return toDto(entity);
     }
 
     @Override
     public CrudObjectDto createCrudObject(CrudObjectCreateRequestDto request) {
         OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
         String id = UUID.randomUUID().toString();
-        CrudRecord record = new CrudRecord(id, request.getName(), extractDescription(request.getDescription()), now, now);
-        dataStore.put(id, record);
+        CrudObjectEntity entity = new CrudObjectEntity(id, request.getName(), extractDescription(request.getDescription()), now, now);
+        CrudObjectEntity persisted = crudPort.insert(entity);
         logger.info("Created CrudObject with id {}", id);
-        return toDto(record);
+        return toDto(persisted);
     }
 
-    @Override
-    public CrudObjectDto replaceCrudObject(String crudObjectId, CrudObjectUpdateRequestDto request) {
-        CrudRecord existing = findRequired(crudObjectId);
-        existing.setName(request.getName());
-        existing.setDescription(extractDescription(request.getDescription()));
-        existing.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
-        logger.info("Replaced CrudObject with id {}", crudObjectId);
-        return toDto(existing);
+    private CrudObjectEntity findRequired(String crudObjectId) {
+        return crudPort.findById(crudObjectId)
+            .orElseThrow(() -> new CrudObjectNotFoundException(crudObjectId));
     }
 
-    @Override
-    public CrudObjectDto updateCrudObject(String crudObjectId, CrudObjectPatchRequestDto request) {
-        CrudRecord existing = findRequired(crudObjectId);
-        if (request.getName() != null) {
-            existing.setName(request.getName());
-        }
-        JsonNullable<String> description = request.getDescription();
-        if (description != null && description.isPresent()) {
-            existing.setDescription(description.get());
-        }
-        existing.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
-        logger.info("Patched CrudObject with id {}", crudObjectId);
-        return toDto(existing);
-    }
-
-    @Override
-    public void deleteCrudObject(String crudObjectId) {
-        CrudRecord removed = dataStore.remove(crudObjectId);
-        if (removed == null) {
-            throw new CrudObjectNotFoundException(crudObjectId);
-        }
-        logger.info("Deleted CrudObject with id {}", crudObjectId);
-    }
-
-    private CrudRecord findRequired(String crudObjectId) {
-        CrudRecord record = dataStore.get(crudObjectId);
-        if (record == null) {
-            throw new CrudObjectNotFoundException(crudObjectId);
-        }
-        return record;
-    }
-
-    private CrudObjectDto toDto(CrudRecord record) {
+    private CrudObjectDto toDto(CrudObjectEntity entity) {
         CrudObjectDto dto = new CrudObjectDto()
-            .id(record.getId())
-            .name(record.getName())
-            .createdAt(record.getCreatedAt())
-            .updatedAt(record.getUpdatedAt());
-        if (record.getDescription() != null) {
-            dto.description(record.getDescription());
+            .id(entity.getId())
+            .name(entity.getName())
+            .createdAt(entity.getCreatedAt())
+            .updatedAt(entity.getUpdatedAt());
+        if (entity.getDescription() != null) {
+            dto.description(entity.getDescription());
         }
         return dto;
     }
 
-    private Comparator<CrudRecord> resolveComparator(String sort) {
+    private Comparator<CrudObjectEntity> resolveComparator(String sort) {
         if (sort == null || sort.isBlank()) {
-            return Comparator.comparing(CrudRecord::getName, String.CASE_INSENSITIVE_ORDER);
+            return Comparator.comparing(CrudObjectEntity::getName, String.CASE_INSENSITIVE_ORDER);
         }
         String[] parts = sort.split(",");
         String property = parts[0].trim();
         boolean descending = parts.length > 1 && "desc".equalsIgnoreCase(parts[1].trim());
 
-        Comparator<CrudRecord> comparator = switch (property) {
-            case "id" -> Comparator.comparing(CrudRecord::getId);
-            case "createdAt" -> Comparator.comparing(CrudRecord::getCreatedAt);
-            case "updatedAt" -> Comparator.comparing(CrudRecord::getUpdatedAt);
-            case "name" -> Comparator.comparing(CrudRecord::getName, String.CASE_INSENSITIVE_ORDER);
-            default -> Comparator.comparing(CrudRecord::getName, String.CASE_INSENSITIVE_ORDER);
+        Comparator<CrudObjectEntity> comparator = switch (property) {
+            case "id" -> Comparator.comparing(CrudObjectEntity::getId);
+            case "createdAt" -> Comparator.comparing(CrudObjectEntity::getCreatedAt);
+            case "updatedAt" -> Comparator.comparing(CrudObjectEntity::getUpdatedAt);
+            case "name" -> Comparator.comparing(CrudObjectEntity::getName, String.CASE_INSENSITIVE_ORDER);
+            default -> Comparator.comparing(CrudObjectEntity::getName, String.CASE_INSENSITIVE_ORDER);
         };
         return descending ? comparator.reversed() : comparator;
     }
@@ -153,64 +114,5 @@ public class CrudService implements CrudUseCase {
             return description.get();
         }
         return null;
-    }
-
-    private void seedData() {
-        OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
-        store(new CrudRecord(UUID.randomUUID().toString(), "Alpha Object", "Mock object seeded at startup", now.minusDays(3), now.minusDays(1)));
-        store(new CrudRecord(UUID.randomUUID().toString(), "Beta Object", null, now.minusDays(2), now.minusHours(10)));
-        store(new CrudRecord(UUID.randomUUID().toString(), "Gamma Object", "Illustrative sample", now.minusDays(1), now.minusHours(2)));
-    }
-
-    private void store(CrudRecord record) {
-        dataStore.put(record.getId(), record);
-    }
-
-    private static final class CrudRecord {
-        private final String id;
-        private String name;
-        private String description;
-        private final OffsetDateTime createdAt;
-        private OffsetDateTime updatedAt;
-
-        private CrudRecord(String id, String name, String description, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-            this.createdAt = createdAt;
-            this.updatedAt = updatedAt;
-        }
-
-        private String getId() {
-            return id;
-        }
-
-        private String getName() {
-            return name;
-        }
-
-        private String getDescription() {
-            return description;
-        }
-
-        private OffsetDateTime getCreatedAt() {
-            return createdAt;
-        }
-
-        private OffsetDateTime getUpdatedAt() {
-            return updatedAt;
-        }
-
-        private void setName(String name) {
-            this.name = name;
-        }
-
-        private void setDescription(String description) {
-            this.description = description;
-        }
-
-        private void setUpdatedAt(OffsetDateTime updatedAt) {
-            this.updatedAt = updatedAt;
-        }
     }
 }
