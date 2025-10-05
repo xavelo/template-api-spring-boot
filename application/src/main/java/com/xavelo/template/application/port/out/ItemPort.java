@@ -6,12 +6,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Outbound port that defines persistence operations for CrudObjects.
+ * Outbound port that defines persistence operations for Items.
  */
-public interface CrudPort {
+public interface ItemPort {
 
     /**
-     * Retrieves a page of CrudObjects applying the requested sort order.
+     * Retrieves a page of Items applying the requested sort order.
      *
      * @param page zero-based page index
      * @param size number of elements per page
@@ -21,20 +21,20 @@ public interface CrudPort {
     PageResult fetchPage(int page, int size, Sort sort);
 
     /**
-     * Retrieves a CrudObject by its identifier.
+     * Retrieves an Item by its identifier.
      *
-     * @param id unique identifier of the CrudObject
+     * @param id unique identifier of the Item
      * @return optional containing the record when found
      */
-    Optional<CrudRecord> findById(String id);
+    Optional<ItemRecord> findById(String id);
 
     /**
-     * Persists a CrudObject record.
+     * Persists an Item record.
      *
      * @param record record to persist
      * @return the stored record as retrieved from the persistence layer
      */
-    CrudRecord save(CrudRecord record);
+    ItemRecord save(ItemRecord record);
 
     enum SortDirection {
         ASC,
@@ -52,14 +52,14 @@ public interface CrudPort {
         }
     }
 
-    record PageResult(List<CrudRecord> content, long totalElements) {
+    record PageResult(List<ItemRecord> content, long totalElements) {
         public PageResult {
             content = List.copyOf(Objects.requireNonNull(content, "content must not be null"));
         }
     }
 
-    record CrudRecord(String id, String name, String description, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
-        public CrudRecord {
+    record ItemRecord(String id, String name, String description, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+        public ItemRecord {
             Objects.requireNonNull(id, "id must not be null");
             Objects.requireNonNull(name, "name must not be null");
             Objects.requireNonNull(createdAt, "createdAt must not be null");

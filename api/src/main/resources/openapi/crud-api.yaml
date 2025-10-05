@@ -1,20 +1,20 @@
 openapi: 3.0.3
 info:
-  title: Crud API Template
+  title: Item API Template
   version: 1.0.0
   description: |
-    Template OpenAPI contract that defines CRUD operations for managing a generic
-    `CrudObject`. This specification can be used as scaffolding when implementing
+    Template OpenAPI contract that defines CRUD operations for managing generic
+    `Item` resources. This specification can be used as scaffolding when implementing
     REST endpoints backed by persistence stores.
 servers:
   - url: /
 paths:
-  /api/crud:
+  /api/items:
     get:
       tags:
-        - Crud
-      operationId: listCrudObjects
-      summary: Retrieves a paginated list of CrudObjects.
+        - Item
+      operationId: listItems
+      summary: Retrieves a paginated list of Items.
       parameters:
         - name: page
           in: query
@@ -41,11 +41,11 @@ paths:
             type: string
       responses:
         '200':
-          description: Successfully retrieved CrudObjects.
+          description: Successfully retrieved Items.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CrudObjectPage'
+                $ref: '#/components/schemas/ItemPage'
         '400':
           description: Invalid request parameters supplied.
           content:
@@ -54,63 +54,63 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
-        - Crud
-      operationId: createCrudObject
-      summary: Creates a new CrudObject.
+        - Item
+      operationId: createItem
+      summary: Creates a new Item.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CrudObjectCreateRequest'
+              $ref: '#/components/schemas/ItemCreateRequest'
       responses:
         '201':
-          description: CrudObject successfully created.
+          description: Item successfully created.
           headers:
             Location:
-              description: URI of the newly created CrudObject.
+              description: URI of the newly created Item.
               schema:
                 type: string
         '400':
-          description: Invalid CrudObject payload supplied.
+          description: Invalid Item payload supplied.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /api/crud/{crudObjectId}:
+  /api/items/{itemId}:
     parameters:
-      - $ref: '#/components/parameters/CrudObjectIdPath'
+      - $ref: '#/components/parameters/ItemIdPath'
     get:
       tags:
-        - Crud
-      operationId: getCrudObject
-      summary: Retrieves a single CrudObject by its identifier.
+        - Item
+      operationId: getItem
+      summary: Retrieves a single Item by its identifier.
       responses:
         '200':
-          description: CrudObject successfully retrieved.
+          description: Item successfully retrieved.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CrudObject'
+                $ref: '#/components/schemas/Item'
         '404':
-          description: CrudObject not found.
+          description: Item not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   parameters:
-    CrudObjectIdPath:
-      name: crudObjectId
+    ItemIdPath:
+      name: itemId
       in: path
-      description: Unique identifier of the CrudObject.
+      description: Unique identifier of the Item.
       required: true
       schema:
         type: string
   schemas:
-    CrudObject:
+    Item:
       type: object
-      description: Representation of a CrudObject persisted in the system.
+      description: Representation of an Item persisted in the system.
       required:
         - id
         - name
@@ -122,7 +122,7 @@ components:
           description: Server-assigned unique identifier.
         name:
           type: string
-          description: Human readable name for the CrudObject.
+          description: Human readable name for the Item.
         description:
           type: string
           nullable: true
@@ -130,27 +130,27 @@ components:
         createdAt:
           type: string
           format: date-time
-          description: Timestamp indicating when the CrudObject was created.
+          description: Timestamp indicating when the Item was created.
         updatedAt:
           type: string
           format: date-time
-          description: Timestamp of the most recent update to the CrudObject.
-    CrudObjectCreateRequest:
+          description: Timestamp of the most recent update to the Item.
+    ItemCreateRequest:
       type: object
-      description: Payload used when creating a new CrudObject.
+      description: Payload used when creating a new Item.
       required:
         - name
       properties:
         name:
           type: string
-          description: Human readable name for the CrudObject.
+          description: Human readable name for the Item.
         description:
           type: string
           nullable: true
           description: Optional descriptive text.
-    CrudObjectPage:
+    ItemPage:
       type: object
-      description: Paginated collection of CrudObjects.
+      description: Paginated collection of Items.
       required:
         - content
         - page
@@ -161,7 +161,7 @@ components:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/CrudObject'
+            $ref: '#/components/schemas/Item'
         page:
           type: integer
           minimum: 0
@@ -173,7 +173,7 @@ components:
         totalElements:
           type: integer
           minimum: 0
-          description: Total number of CrudObjects available.
+          description: Total number of Items available.
         totalPages:
           type: integer
           minimum: 0
