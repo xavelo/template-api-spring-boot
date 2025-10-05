@@ -1,0 +1,314 @@
+openapi: 3.0.3
+info:
+  title: Joke API Template
+  version: 1.0.0
+  description: |
+    OpenAPI specification for a Joke service that allows clients to browse,
+    contribute, and retrieve jokes. This contract mirrors the structure of the
+    existing CRUD template while tailoring schemas and operations for joke
+    management use cases.
+servers:
+  - url: /
+paths:
+  /api/jokes:
+    get:
+      tags:
+        - Joke
+      operationId: listJokes
+      summary: Retrieves a paginated list of jokes.
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index to retrieve.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: size
+          in: query
+          description: Number of records to include in each page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 20
+        - name: sort
+          in: query
+          description: Sorting definition in the form `property,(asc|desc)`.
+          required: false
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: Filters jokes by category when provided.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved jokes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JokePage'
+        '400':
+          description: Invalid request parameters supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - Joke
+      operationId: createJoke
+      summary: Submits a new joke for inclusion.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JokeCreateRequest'
+      responses:
+        '201':
+          description: Joke successfully created.
+          headers:
+            Location:
+              description: URI of the newly created joke.
+              schema:
+                type: string
+        '400':
+          description: Invalid joke payload supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/jokes/{jokeId}:
+    parameters:
+      - $ref: '#/components/parameters/JokeIdPath'
+    get:
+      tags:
+        - Joke
+      operationId: getJoke
+      summary: Retrieves a single joke by its identifier.
+      responses:
+        '200':
+          description: Joke successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Joke'
+        '404':
+          description: Joke not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - Joke
+      operationId: updateJoke
+      summary: Replaces the content of an existing joke.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JokeUpdateRequest'
+      responses:
+        '200':
+          description: Joke successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Joke'
+        '400':
+          description: Invalid joke payload supplied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Joke not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Joke
+      operationId: deleteJoke
+      summary: Removes a joke by its identifier.
+      responses:
+        '204':
+          description: Joke successfully deleted.
+        '404':
+          description: Joke not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/jokes/random:
+    get:
+      tags:
+        - Joke
+      operationId: getRandomJoke
+      summary: Retrieves a random joke.
+      parameters:
+        - name: category
+          in: query
+          description: Limits the random selection to the specified category.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Random joke successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Joke'
+        '404':
+          description: No joke available for the requested criteria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  parameters:
+    JokeIdPath:
+      name: jokeId
+      in: path
+      description: Unique identifier of the joke.
+      required: true
+      schema:
+        type: string
+  schemas:
+    Joke:
+      type: object
+      description: Representation of a joke persisted in the system.
+      required:
+        - id
+        - setup
+        - punchline
+        - category
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+          description: Server-assigned unique identifier.
+        setup:
+          type: string
+          description: Opening line or context for the joke.
+        punchline:
+          type: string
+          description: The humorous conclusion of the joke.
+        category:
+          type: string
+          description: Category or genre associated with the joke.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp indicating when the joke was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent update to the joke.
+        author:
+          type: string
+          nullable: true
+          description: Optional attribution for who submitted the joke.
+        rating:
+          type: number
+          format: double
+          nullable: true
+          description: Aggregate rating score for the joke.
+    JokeCreateRequest:
+      type: object
+      description: Payload used when submitting a new joke.
+      required:
+        - setup
+        - punchline
+      properties:
+        setup:
+          type: string
+          description: Opening line or context for the joke.
+        punchline:
+          type: string
+          description: The humorous conclusion of the joke.
+        category:
+          type: string
+          nullable: true
+          description: Optional category to associate with the joke.
+        author:
+          type: string
+          nullable: true
+          description: Optional attribution for who submitted the joke.
+    JokeUpdateRequest:
+      type: object
+      description: Payload used when updating an existing joke.
+      required:
+        - setup
+        - punchline
+      properties:
+        setup:
+          type: string
+          description: Opening line or context for the joke.
+        punchline:
+          type: string
+          description: The humorous conclusion of the joke.
+        category:
+          type: string
+          nullable: true
+          description: Category or genre associated with the joke.
+        author:
+          type: string
+          nullable: true
+          description: Attribution for who submitted or owns the joke.
+    JokePage:
+      type: object
+      description: Paginated collection of jokes.
+      required:
+        - content
+        - page
+        - size
+        - totalElements
+        - totalPages
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Joke'
+        page:
+          type: integer
+          minimum: 0
+          description: Current page index.
+        size:
+          type: integer
+          minimum: 1
+          description: Size of the page that was requested.
+        totalElements:
+          type: integer
+          minimum: 0
+          description: Total number of jokes available.
+        totalPages:
+          type: integer
+          minimum: 0
+          description: Total number of pages available.
+    ErrorResponse:
+      type: object
+      description: Generic error response payload.
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Human readable description of the error.
+        details:
+          type: array
+          nullable: true
+          description: Optional list of field level validation errors.
+          items:
+            type: string
