@@ -1,5 +1,7 @@
-package com.xavelo.template.joke;
+package com.xavelo.template.adapter.in.http.joke;
 
+import com.xavelo.template.application.domain.joke.Joke;
+import com.xavelo.template.application.port.in.joke.GetRandomJokeUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,11 +23,11 @@ class JokeControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private JokeService jokeService;
+    private GetRandomJokeUseCase getRandomJokeUseCase;
 
     @Test
     void randomJokeReturnsJoke() throws Exception {
-        given(jokeService.getRandomJoke())
+        given(getRandomJokeUseCase.getRandomJoke())
                 .willReturn(new Joke("test-id", "A funny joke", "https://api.chucknorris.io/jokes/test-id"));
 
         mockMvc.perform(get("/api/jokes/random").accept(MediaType.APPLICATION_JSON))
