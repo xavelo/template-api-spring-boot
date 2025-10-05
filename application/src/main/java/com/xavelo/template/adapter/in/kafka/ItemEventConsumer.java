@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xavelo.common.metrics.Adapter;
 import com.xavelo.common.metrics.CountAdapterInvocation;
-import com.xavelo.template.application.domain.Item;
-import com.xavelo.template.application.port.in.ItemEventListenerUseCase;
+import com.xavelo.template.application.domain.Event;
+import com.xavelo.template.application.port.in.ProcessEventUseCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -21,11 +21,11 @@ public class ItemEventConsumer {
     private static final Logger logger = LogManager.getLogger(ItemEventConsumer.class);
 
     private final ObjectMapper objectMapper;
-    private final ItemEventListenerUseCase itemEventListenerUseCase;
+    private final ProcessEventUseCase processEventUseCase;
 
-    public ItemEventConsumer(ObjectMapper objectMapper, ItemEventListenerUseCase itemEventListenerUseCase) {
+    public ItemEventConsumer(ObjectMapper objectMapper, ProcessEventUseCase processEventUseCase) {
         this.objectMapper = objectMapper;
-        this.itemEventListenerUseCase = itemEventListenerUseCase;
+        this.processEventUseCase = processEventUseCase;
     }
 
     @KafkaListener(
@@ -35,12 +35,12 @@ public class ItemEventConsumer {
     @CountAdapterInvocation(name = "item-event-consume", direction = IN, type = KAFKA)
     public void consume(String payload) {
         try {
-            Item item = objectMapper.readValue(payload, Item.class);
-            logger.info("Consumed item event for id {}", item.id());
-            itemEventListenerUseCase.onItemCreated(item);
+            Event event = objectMapper.readValue(payload, Event.class);
+            logger.info("Consumed event {} with text: {}", event.id(), event.text());
+            processEventUseCase.process(event);
         } catch (JsonProcessingException e) {
-            logger.error("Unable to deserialize item event payload", e);
-            throw new IllegalStateException("Failed to deserialize item event", e);
+            logger.error("Unable to deserialize event payload", e);
+            throw new IllegalStateException("Failed to deserialize event", e);
         }
     }
 }

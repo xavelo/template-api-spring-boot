@@ -1,8 +1,8 @@
 package com.xavelo.template.adapter.in.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xavelo.template.application.domain.Item;
-import com.xavelo.template.application.port.in.ItemEventListenerUseCase;
+import com.xavelo.template.application.domain.Event;
+import com.xavelo.template.application.port.in.ProcessEventUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -13,26 +13,26 @@ import static org.mockito.Mockito.verify;
 
 class ItemEventConsumerTest {
 
-    private ItemEventListenerUseCase itemEventListenerUseCase;
+    private ProcessEventUseCase processEventUseCase;
     private ObjectMapper objectMapper;
     private ItemEventConsumer itemEventConsumer;
 
     @BeforeEach
     void setUp() {
-        itemEventListenerUseCase = Mockito.mock(ItemEventListenerUseCase.class);
+        processEventUseCase = Mockito.mock(ProcessEventUseCase.class);
         objectMapper = new ObjectMapper();
-        itemEventConsumer = new ItemEventConsumer(objectMapper, itemEventListenerUseCase);
+        itemEventConsumer = new ItemEventConsumer(objectMapper, processEventUseCase);
     }
 
     @Test
     void shouldInvokeInboundPortWhenPayloadIsConsumed() throws Exception {
-        Item item = new Item("item-id", "Test Item");
-        String payload = objectMapper.writeValueAsString(item);
+        Event event = new Event("event-id", "Test event");
+        String payload = objectMapper.writeValueAsString(event);
 
         itemEventConsumer.consume(payload);
 
-        ArgumentCaptor<Item> itemCaptor = ArgumentCaptor.forClass(Item.class);
-        verify(itemEventListenerUseCase).onItemCreated(itemCaptor.capture());
-        assertThat(itemCaptor.getValue()).isEqualTo(item);
+        ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
+        verify(processEventUseCase).process(eventCaptor.capture());
+        assertThat(eventCaptor.getValue()).isEqualTo(event);
     }
 }
