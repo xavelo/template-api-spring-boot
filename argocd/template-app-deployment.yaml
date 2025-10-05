@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: template-app-deployment
   annotations:
-    commitID: "ad7a14b058f355b5a650e1e2db349f631e74069a"
+    commitID: "38638f8d2c7ed01eaa51000d720b0082125e7f2f"
 spec:
   replicas: 1
   selector:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: template-app
-          image: 'xavelo/template-app-spring-boot:ad7a14b058f355b5a650e1e2db349f631e74069a'
+          image: 'xavelo/template-app-spring-boot:38638f8d2c7ed01eaa51000d720b0082125e7f2f'
           env:
             - name: MYSQL_USER
               valueFrom:
