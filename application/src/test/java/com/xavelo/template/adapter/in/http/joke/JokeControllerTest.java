@@ -33,7 +33,10 @@ class JokeControllerTest {
         mockMvc.perform(get("/api/jokes/random").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("test-id"))
-                .andExpect(jsonPath("$.value").value("A funny joke"))
-                .andExpect(jsonPath("$.url").value("https://api.chucknorris.io/jokes/test-id"));
+                .andExpect(jsonPath("$.setup").value("A funny joke"))
+                .andExpect(jsonPath("$.punchline").value("A funny joke"))
+                .andExpect(jsonPath("$.category").value("general"))
+                .andExpect(jsonPath("$.createdAt").isNotEmpty())
+                .andExpect(jsonPath("$.updatedAt").isNotEmpty());
     }
 }
