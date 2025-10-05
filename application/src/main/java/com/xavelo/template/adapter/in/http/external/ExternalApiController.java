@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
@@ -51,7 +52,7 @@ public class ExternalApiController implements ExternalApiApi {
         return new ExternalApiResponseDto()
                 .id(result.id())
                 .value(result.value())
-                .url(result.url())
+                .url(URI.create(result.url()))
                 .category(category)
                 .requestedCategory(category)
                 .retrievedAt(timestamp);
