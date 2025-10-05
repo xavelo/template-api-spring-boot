@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info:
+  title: Async API
+  version: 1.0.0
+  description: API definition for triggering an asynchronous operation.
+servers:
+  - url: /
+paths:
+  /api/async-operation:
+    get:
+      tags:
+        - Async
+      operationId: triggerAsyncOperation
+      summary: Executes an asynchronous operation and returns its result.
+      responses:
+        '200':
+          description: Async operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncOperationResponse'
+components:
+  schemas:
+    AsyncOperationResponse:
+      type: object
+      required:
+        - message
+        - durationMs
+      properties:
+        message:
+          type: string
+          description: Human-readable summary of the operation outcome.
+        durationMs:
+          type: integer
+          format: int64
+          description: Duration of the operation in milliseconds.

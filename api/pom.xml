@@ -154,6 +154,39 @@
                             </configOptions>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>generate-async-openapi-contract</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/async-api.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <output>${project.build.directory}/generated-sources/openapi</output>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateModelTests>false</generateModelTests>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <additionalProperties>
+                                <additionalProperty>apiPackage=com.xavelo.template.api.contract.api</additionalProperty>
+                                <additionalProperty>basePackage=com.xavelo.template.api.contract</additionalProperty>
+                                <additionalProperty>modelPackage=com.xavelo.template.api.contract.model</additionalProperty>
+                                <additionalProperty>dateLibrary=java8</additionalProperty>
+                                <additionalProperty>modelNameSuffix=Dto</additionalProperty>
+                                <additionalProperty>useJakartaEe=true</additionalProperty>
+                                <additionalProperty>serializationLibrary=jackson</additionalProperty>
+                                <additionalProperty>useTags=true</additionalProperty>
+                                <additionalProperty>useSpringBoot3=true</additionalProperty>
+                                <additionalProperty>async=true</additionalProperty>
+                            </additionalProperties>
+                            <configOptions>
+                                <sourceFolder>src/main/java</sourceFolder>
+                                <interfaceOnly>true</interfaceOnly>
+                            </configOptions>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
