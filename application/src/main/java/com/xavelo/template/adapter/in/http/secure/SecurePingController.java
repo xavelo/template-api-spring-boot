@@ -19,7 +19,7 @@ public class SecurePingController implements SecurePingApi {
 
     @Value("${HOSTNAME:unknown}")
     private String podName;
-    
+
     @CountAdapterInvocation(
         name = "secure-ping",
         direction = AdapterMetrics.Direction.IN,
