@@ -2,10 +2,10 @@ package com.xavelo.template.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "kafka-event-consumer")
+@ConfigurationProperties(prefix = "kafka.consumer")
 public class EventConsumerProperties {
 
-    private String topic = "test-topic";
+    private String topic;
     private String groupId = "template-app-test-topic-consumer";
     private int concurrency = 1;
     private long errorBackoffIntervalMs = 1000L;

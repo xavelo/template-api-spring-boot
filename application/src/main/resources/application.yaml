@@ -24,7 +24,6 @@ spring:
   kafka:
     bootstrap-servers: my-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092
 
-
 management:
   endpoints:
     web:
@@ -34,4 +33,10 @@ management:
 chucknorris:
   base-url: https://api.chucknorris.io
 
-
+kafka:
+  consumer:
+    topic: test-topic
+    group-id: template-app-test-topic-consumer
+    concurrency: 1
+    error-backoff-interval-ms: 1000
+    error-max-retries: 3

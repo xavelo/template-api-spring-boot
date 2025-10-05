@@ -6,11 +6,9 @@ import com.xavelo.common.metrics.Adapter;
 import com.xavelo.common.metrics.CountAdapterInvocation;
 import com.xavelo.template.application.domain.Event;
 import com.xavelo.template.application.port.in.ProcessEventUseCase;
-import com.xavelo.template.configuration.EventConsumerProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import static com.xavelo.common.metrics.AdapterMetrics.Direction.IN;
@@ -31,10 +29,10 @@ public class EventConsumer {
     }
 
     @KafkaListener(
-        topics = "test-topic",
+        topics = "${kafka.consumer.topic}",
         containerFactory = "testTopicEventKafkaListenerContainerFactory"
     )
-    @CountAdapterInvocation(name = "test-topic-event", direction = IN, type = KAFKA)
+    @CountAdapterInvocation(name = "item-events", direction = IN, type = KAFKA)
     public void consume(String payload) {
         try {
             Event event = objectMapper.readValue(payload, Event.class);
