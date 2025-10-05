@@ -3,7 +3,7 @@ package com.xavelo.template.adapter.in.http.joke;
 import com.xavelo.common.metrics.Adapter;
 import com.xavelo.common.metrics.AdapterMetrics;
 import com.xavelo.common.metrics.CountAdapterInvocation;
-import com.xavelo.template.application.domain.joke.Joke;
+import com.xavelo.template.application.domain.Joke;
 import com.xavelo.template.application.port.in.joke.GetRandomJokeUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

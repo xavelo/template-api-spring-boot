@@ -1,6 +1,6 @@
 package com.xavelo.template.adapter.out.http.joke;
 
-import com.xavelo.template.application.domain.joke.Joke;
+import com.xavelo.template.application.domain.Joke;
 import com.xavelo.template.configuration.ChuckNorrisProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.xavelo.template.adapter.in.http.joke;
 
-import com.xavelo.template.application.domain.joke.Joke;
+import com.xavelo.template.application.domain.Joke;
 import com.xavelo.template.application.port.in.joke.GetRandomJokeUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
