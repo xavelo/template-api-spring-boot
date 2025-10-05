@@ -38,7 +38,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> itemEventKafkaListenerContainerFactory(
+    public ConcurrentKafkaListenerContainerFactory<String, String> testTopicEventKafkaListenerContainerFactory(
         ConsumerFactory<String, String> itemEventConsumerFactory,
         DefaultErrorHandler itemEventErrorHandler,
         EventConsumerProperties eventConsumerProperties

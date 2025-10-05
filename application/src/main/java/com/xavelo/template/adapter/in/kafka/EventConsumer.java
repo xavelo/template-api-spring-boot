@@ -32,7 +32,7 @@ public class EventConsumer {
 
     @KafkaListener(
         topics = "test-topic",
-        containerFactory = "itemEventKafkaListenerContainerFactory"
+        containerFactory = "testTopicEventKafkaListenerContainerFactory"
     )
     @CountAdapterInvocation(name = "test-topic-event", direction = IN, type = KAFKA)
     public void consume(String payload) {
