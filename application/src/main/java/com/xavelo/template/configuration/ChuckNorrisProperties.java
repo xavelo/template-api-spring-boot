@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class ChuckNorrisProperties {
 
     /**
-     * Base URL for the Chuck Norris jokes API.
+     * Base URL for the Chuck Norris external API.
      */
     private String baseUrl = "https://api.chucknorris.io";
 

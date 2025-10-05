@@ -123,13 +123,13 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>generate-joke-openapi-contract</id>
+                        <id>generate-external-openapi-contract</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <phase>generate-sources</phase>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi/joke-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/external-api.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${project.build.directory}/generated-sources/openapi</output>
                             <generateApiDocumentation>false</generateApiDocumentation>

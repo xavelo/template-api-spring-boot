@@ -1,0 +1,99 @@
+openapi: 3.0.1
+info:
+  title: External API Template
+  description: |
+    OpenAPI specification for retrieving data from an external API. The contract exposes
+    a single endpoint that demonstrates how to orchestrate an outbound HTTP call and
+    return a normalized payload to consumers of this service.
+  version: 1.0.0
+tags:
+  - name: ExternalApi
+    description: Operations that surface information gathered from a third-party API.
+paths:
+  /api/external/random:
+    get:
+      tags:
+        - ExternalApi
+      operationId: callExternalApi
+      summary: Calls the external API and returns a formatted response.
+      description: |
+        Invokes the configured third-party API to retrieve a random piece of information and
+        returns it in a consistent structure.
+      parameters:
+        - $ref: '#/components/parameters/CategoryQuery'
+      responses:
+        '200':
+          description: External API response successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalApiResponse'
+        '400':
+          description: The supplied query parameters are invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalApiError'
+        '503':
+          description: The upstream external API is unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExternalApiError'
+components:
+  parameters:
+    CategoryQuery:
+      name: category
+      in: query
+      description: Optional category used to contextualize the request.
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 64
+  schemas:
+    ExternalApiResponse:
+      type: object
+      description: Normalized payload returned after calling the external API.
+      required:
+        - id
+        - value
+        - url
+        - category
+        - requestedCategory
+        - retrievedAt
+      properties:
+        id:
+          type: string
+          description: Identifier supplied by the external API.
+        value:
+          type: string
+          description: Textual payload returned by the external API.
+        url:
+          type: string
+          format: uri
+          description: Direct link to the resource in the external API.
+        category:
+          type: string
+          description: Category derived from the external API response.
+        requestedCategory:
+          type: string
+          description: Category requested by the caller or the default category when none was provided.
+        retrievedAt:
+          type: string
+          format: date-time
+          description: Timestamp indicating when the external API was invoked.
+    ExternalApiError:
+      type: object
+      description: Error payload returned when the external API request cannot be fulfilled.
+      required:
+        - message
+        - timestamp
+      properties:
+        message:
+          type: string
+          description: Human readable description of the error condition.
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of when the error occurred.
