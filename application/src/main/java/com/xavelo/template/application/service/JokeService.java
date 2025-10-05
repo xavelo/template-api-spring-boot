@@ -1,7 +1,7 @@
 package com.xavelo.template.application.service;
 
 import com.xavelo.template.application.domain.Joke;
-import com.xavelo.template.application.port.in.joke.GetRandomJokeUseCase;
+import com.xavelo.template.application.port.in.GetRandomJokeUseCase;
 import com.xavelo.template.application.port.out.GetRandomJokePort;
 import org.springframework.stereotype.Service;
 

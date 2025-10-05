@@ -1,7 +1,7 @@
 package com.xavelo.template.adapter.in.http.joke;
 
 import com.xavelo.template.application.domain.Joke;
-import com.xavelo.template.application.port.in.joke.GetRandomJokeUseCase;
+import com.xavelo.template.application.port.in.GetRandomJokeUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

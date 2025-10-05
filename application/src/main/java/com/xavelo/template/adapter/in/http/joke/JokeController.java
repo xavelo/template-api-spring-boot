@@ -6,7 +6,7 @@ import com.xavelo.common.metrics.CountAdapterInvocation;
 import com.xavelo.template.api.contract.api.JokeApi;
 import com.xavelo.template.api.contract.model.JokeDto;
 import com.xavelo.template.application.domain.Joke;
-import com.xavelo.template.application.port.in.joke.GetRandomJokeUseCase;
+import com.xavelo.template.application.port.in.GetRandomJokeUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
