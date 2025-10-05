@@ -45,7 +45,7 @@ public class JokeController implements JokeApi {
         OffsetDateTime timestamp = OffsetDateTime.now(ZoneOffset.UTC);
         String category = (requestedCategory == null || requestedCategory.isBlank())
                 ? DEFAULT_CATEGORY
-                : requestedCategory;
+                : requestedCategory.trim();
 
         return new JokeDto()
                 .id(joke.id())
