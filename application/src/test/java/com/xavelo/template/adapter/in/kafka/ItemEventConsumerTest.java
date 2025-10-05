@@ -3,6 +3,7 @@ package com.xavelo.template.adapter.in.kafka;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xavelo.template.application.domain.Event;
 import com.xavelo.template.application.port.in.ProcessEventUseCase;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -28,8 +29,9 @@ class ItemEventConsumerTest {
     void shouldInvokeInboundPortWhenPayloadIsConsumed() throws Exception {
         Event event = new Event("event-id", "Test event");
         String payload = objectMapper.writeValueAsString(event);
+        ConsumerRecord<String, String> consumerRecord = new ConsumerRecord<>("topic", 0, 0L, "key", payload);
 
-        itemEventConsumer.consume(payload);
+        itemEventConsumer.consume(consumerRecord, null);
 
         ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
         verify(processEventUseCase).process(eventCaptor.capture());
