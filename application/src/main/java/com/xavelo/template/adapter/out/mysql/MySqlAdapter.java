@@ -4,18 +4,13 @@ import com.xavelo.common.metrics.Adapter;
 import com.xavelo.template.application.port.out.ItemPort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Adapter
@@ -25,118 +20,79 @@ public class MySqlAdapter implements ItemPort {
     private static final Logger logger = LogManager.getLogger(MySqlAdapter.class);
     private static final String SYSTEM_USER = "system";
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final ItemJpaRepository repository;
 
-    public MySqlAdapter(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public MySqlAdapter(ItemJpaRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public PageResult fetchPage(int page, int size, Sort sort) {
+    public PageResult fetchPage(int page, int size, ItemPort.Sort sort) {
         int resolvedPage = Math.max(page, 0);
         int resolvedSize = Math.max(size, 1);
-        String orderBy = resolveOrderBy(sort);
+        org.springframework.data.domain.Sort resolvedSort = resolveSort(sort);
 
-        String sql = """
-            SELECT id, name, description, created_on, modified_on
-            FROM item
-            ORDER BY %s
-            LIMIT :limit OFFSET :offset
-            """.formatted(orderBy);
-
-        MapSqlParameterSource parameters = new MapSqlParameterSource()
-            .addValue("limit", resolvedSize)
-            .addValue("offset", resolvedPage * (long) resolvedSize);
-
-        List<ItemRecord> content = jdbcTemplate.query(sql, parameters, (rs, rowNum) -> mapRecord(rs));
-        Long total = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM item", Map.of(), Long.class);
-        long resolvedTotal = total == null ? 0L : total;
+        Page<ItemEntity> pageResult = repository.findAll(PageRequest.of(resolvedPage, resolvedSize, resolvedSort));
+        List<ItemRecord> content = pageResult.getContent().stream()
+            .map(this::mapRecord)
+            .toList();
         logger.debug("Fetched {} Items from MySQL (page={}, size={})", content.size(), resolvedPage, resolvedSize);
-        return new PageResult(content, resolvedTotal);
+        return new PageResult(content, pageResult.getTotalElements());
     }
 
     @Override
     public Optional<ItemRecord> findById(String id) {
-        try {
-            ItemRecord record = jdbcTemplate.queryForObject(
-                """
-                    SELECT id, name, description, created_on, modified_on
-                    FROM item
-                    WHERE id = :id
-                    """,
-                new MapSqlParameterSource("id", id),
-                (rs, rowNum) -> mapRecord(rs)
-            );
-            return Optional.ofNullable(record);
-        } catch (EmptyResultDataAccessException ex) {
-            logger.debug("Item {} not found in MySQL", id);
-            return Optional.empty();
-        }
+        return repository.findById(id)
+            .map(this::mapRecord);
     }
 
     @Override
+    @Transactional
     public ItemRecord save(ItemRecord record) {
-        String sql = """
-            INSERT INTO item (id, name, description, created_by, created_on, modified_by, modified_on)
-            VALUES (:id, :name, :description, :createdBy, :createdOn, :modifiedBy, :modifiedOn)
-            """;
-
-        MapSqlParameterSource parameters = new MapSqlParameterSource()
-            .addValue("id", record.id())
-            .addValue("name", record.name())
-            .addValue("description", record.description())
-            .addValue("createdBy", SYSTEM_USER)
-            .addValue("createdOn", toTimestamp(record.createdAt()))
-            .addValue("modifiedBy", SYSTEM_USER)
-            .addValue("modifiedOn", toTimestamp(record.updatedAt()));
-
-        jdbcTemplate.update(sql, parameters);
+        ItemEntity entity = toEntity(record);
+        ItemEntity saved = repository.save(entity);
         logger.debug("Inserted Item {} into MySQL", record.id());
-        return findById(record.id())
-            .orElseThrow(() -> new IllegalStateException("Failed to load Item after insert: " + record.id()));
+        return mapRecord(saved);
     }
 
-    private ItemRecord mapRecord(ResultSet rs) throws SQLException {
-        OffsetDateTime createdAt = toOffsetDateTime(rs.getTimestamp("created_on"));
-        OffsetDateTime updatedAt = toOffsetDateTime(rs.getTimestamp("modified_on"));
-        if (updatedAt == null) {
-            updatedAt = createdAt;
-        }
+    private ItemRecord mapRecord(ItemEntity entity) {
+        OffsetDateTime createdAt = entity.getCreatedOn();
+        OffsetDateTime updatedAt = entity.getModifiedOn() == null ? createdAt : entity.getModifiedOn();
         return new ItemRecord(
-            rs.getString("id"),
-            rs.getString("name"),
-            rs.getString("description"),
+            entity.getId(),
+            entity.getName(),
+            entity.getDescription(),
             createdAt,
             updatedAt
         );
     }
 
-    private OffsetDateTime toOffsetDateTime(Timestamp timestamp) {
-        if (timestamp == null) {
-            return null;
-        }
-        return timestamp.toInstant().atOffset(ZoneOffset.UTC);
+    private ItemEntity toEntity(ItemRecord record) {
+        ItemEntity entity = new ItemEntity();
+        entity.setId(record.id());
+        entity.setName(record.name());
+        entity.setDescription(record.description());
+        entity.setCreatedBy(SYSTEM_USER);
+        entity.setCreatedOn(record.createdAt());
+        entity.setModifiedBy(SYSTEM_USER);
+        entity.setModifiedOn(record.updatedAt());
+        return entity;
     }
 
-    private Timestamp toTimestamp(OffsetDateTime dateTime) {
-        if (dateTime == null) {
-            return null;
-        }
-        return Timestamp.from(dateTime.toInstant());
-    }
-
-    private String resolveOrderBy(Sort sort) {
+    private org.springframework.data.domain.Sort resolveSort(ItemPort.Sort sort) {
         String property = (sort == null || sort.property() == null || sort.property().isBlank())
             ? "name"
             : sort.property();
-        String column = switch (property) {
+        String entityProperty = switch (property) {
             case "id" -> "id";
-            case "createdAt" -> "created_on";
-            case "updatedAt" -> "modified_on";
+            case "createdAt" -> "createdOn";
+            case "updatedAt" -> "modifiedOn";
             case "name" -> "name";
             default -> "name";
         };
-        String direction = sort != null && sort.direction() == SortDirection.DESC ? "DESC" : "ASC";
-        return column + " " + direction;
+        org.springframework.data.domain.Sort.Direction direction = sort != null && sort.direction() == ItemPort.SortDirection.DESC
+            ? org.springframework.data.domain.Sort.Direction.DESC
+            : org.springframework.data.domain.Sort.Direction.ASC;
+        return org.springframework.data.domain.Sort.by(direction, entityProperty);
     }
 }
