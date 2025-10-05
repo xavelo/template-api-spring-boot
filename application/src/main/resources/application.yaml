@@ -34,3 +34,12 @@ management:
 chucknorris:
   base-url: https://api.chucknorris.io
 
+template:
+  kafka:
+    item-events:
+      topic: test-topic
+      group-id: template-app-item-events
+      concurrency: 1
+      error-backoff-interval-ms: 1000
+      error-max-retries: 3
+

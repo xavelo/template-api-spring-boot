@@ -25,3 +25,12 @@ spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.security.se
 logging:
   level:
     org.springframework.security: DEBUG
+
+template:
+  kafka:
+    item-events:
+      topic: test-topic
+      group-id: test-consumer-group
+      concurrency: 1
+      error-backoff-interval-ms: 0
+      error-max-retries: 0
