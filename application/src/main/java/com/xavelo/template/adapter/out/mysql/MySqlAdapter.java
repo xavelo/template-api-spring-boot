@@ -39,7 +39,7 @@ public class MySqlAdapter implements ItemPort {
 
         String sql = """
             SELECT id, name, description, created_on, modified_on
-            FROM crud
+            FROM item
             ORDER BY %s
             LIMIT :limit OFFSET :offset
             """.formatted(orderBy);
@@ -49,7 +49,7 @@ public class MySqlAdapter implements ItemPort {
             .addValue("offset", resolvedPage * (long) resolvedSize);
 
         List<ItemRecord> content = jdbcTemplate.query(sql, parameters, (rs, rowNum) -> mapRecord(rs));
-        Long total = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM crud", Map.of(), Long.class);
+        Long total = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM item", Map.of(), Long.class);
         long resolvedTotal = total == null ? 0L : total;
         logger.debug("Fetched {} Items from MySQL (page={}, size={})", content.size(), resolvedPage, resolvedSize);
         return new PageResult(content, resolvedTotal);
@@ -61,7 +61,7 @@ public class MySqlAdapter implements ItemPort {
             ItemRecord record = jdbcTemplate.queryForObject(
                 """
                     SELECT id, name, description, created_on, modified_on
-                    FROM crud
+                    FROM item
                     WHERE id = :id
                     """,
                 new MapSqlParameterSource("id", id),
@@ -77,7 +77,7 @@ public class MySqlAdapter implements ItemPort {
     @Override
     public ItemRecord save(ItemRecord record) {
         String sql = """
-            INSERT INTO crud (id, name, description, created_by, created_on, modified_by, modified_on)
+            INSERT INTO item (id, name, description, created_by, created_on, modified_by, modified_on)
             VALUES (:id, :name, :description, :createdBy, :createdOn, :modifiedBy, :modifiedOn)
             """;
 
