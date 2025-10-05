@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: template-app-prometheus-service-monitor
+  namespace: prometheus
+  labels:
+    release: prometheus-operator
+spec:
+  selector:
+    matchLabels:
+      app: template-app
+  namespaceSelector:
+    matchNames:
+      - argocd
+  endpoints:
+    - port: http
+      path: /actuator/prometheus
+      interval: 15s
+      scheme: http
