@@ -1,7 +1,7 @@
-package com.xavelo.template.adapter.out.joke;
+package com.xavelo.template.adapter.out.http.joke;
 
+import com.xavelo.template.application.domain.joke.Joke;
 import com.xavelo.template.configuration.ChuckNorrisProperties;
-import com.xavelo.template.joke.Joke;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
@@ -13,19 +13,19 @@ import org.springframework.test.web.client.response.MockRestResponseCreators;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RestClientTest(ChuckNorrisJokeClient.class)
+@RestClientTest(ChuckNorrisJokeAdapter.class)
 @TestPropertySource(properties = "chucknorris.base-url=https://api.chucknorris.io")
 @Import(ChuckNorrisProperties.class)
-class ChuckNorrisJokeClientTest {
+class ChuckNorrisJokeAdapterTest {
 
     @Autowired
-    private ChuckNorrisJokeClient jokeClient;
+    private ChuckNorrisJokeAdapter jokeAdapter;
 
     @Autowired
     private MockRestServiceServer mockServer;
 
     @Test
-    void fetchRandomJokeReturnsJoke() {
+    void getRandomJokeReturnsJoke() {
         mockServer.expect(MockRestRequestMatchers.requestTo("/jokes/random"))
                 .andRespond(MockRestResponseCreators.withSuccess("""
                         {
@@ -35,7 +35,7 @@ class ChuckNorrisJokeClientTest {
                         }
                         """, org.springframework.http.MediaType.APPLICATION_JSON));
 
-        Joke joke = jokeClient.fetchRandomJoke();
+        Joke joke = jokeAdapter.getRandomJoke();
 
         assertThat(joke.id()).isEqualTo("test-id");
         assertThat(joke.value()).isEqualTo("A hilarious joke");

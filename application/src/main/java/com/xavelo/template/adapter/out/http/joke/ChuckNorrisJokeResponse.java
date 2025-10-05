@@ -1,4 +1,4 @@
-package com.xavelo.template.adapter.out.joke;
+package com.xavelo.template.adapter.out.http.joke;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

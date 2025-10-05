@@ -1,7 +1,8 @@
-package com.xavelo.template.adapter.out.joke;
+package com.xavelo.template.adapter.out.http.joke;
 
+import com.xavelo.template.application.domain.joke.Joke;
+import com.xavelo.template.application.port.out.joke.GetRandomJokePort;
 import com.xavelo.template.configuration.ChuckNorrisProperties;
-import com.xavelo.template.joke.Joke;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -9,18 +10,18 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class ChuckNorrisJokeClient implements JokeClient {
+public class ChuckNorrisJokeAdapter implements GetRandomJokePort {
 
     private final RestTemplate restTemplate;
 
-    public ChuckNorrisJokeClient(RestTemplateBuilder restTemplateBuilder, ChuckNorrisProperties properties) {
+    public ChuckNorrisJokeAdapter(RestTemplateBuilder restTemplateBuilder, ChuckNorrisProperties properties) {
         this.restTemplate = restTemplateBuilder
                 .rootUri(properties.getBaseUrl())
                 .build();
     }
 
     @Override
-    public Joke fetchRandomJoke() {
+    public Joke getRandomJoke() {
         try {
             ResponseEntity<ChuckNorrisJokeResponse> response = restTemplate.getForEntity("/jokes/random", ChuckNorrisJokeResponse.class);
             ChuckNorrisJokeResponse body = response.getBody();
