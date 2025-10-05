@@ -1,7 +1,7 @@
 package com.xavelo.template.adapter.out.mysql;
 
 import com.xavelo.common.metrics.Adapter;
-import com.xavelo.template.application.port.out.CrudPort;
+import com.xavelo.template.application.port.out.ItemPort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Adapter
 @Repository
-public class MySqlAdapter implements CrudPort {
+public class MySqlAdapter implements ItemPort {
 
     private static final Logger logger = LogManager.getLogger(MySqlAdapter.class);
     private static final String SYSTEM_USER = "system";
@@ -48,17 +48,17 @@ public class MySqlAdapter implements CrudPort {
             .addValue("limit", resolvedSize)
             .addValue("offset", resolvedPage * (long) resolvedSize);
 
-        List<CrudRecord> content = jdbcTemplate.query(sql, parameters, (rs, rowNum) -> mapRecord(rs));
+        List<ItemRecord> content = jdbcTemplate.query(sql, parameters, (rs, rowNum) -> mapRecord(rs));
         Long total = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM crud", Map.of(), Long.class);
         long resolvedTotal = total == null ? 0L : total;
-        logger.debug("Fetched {} CrudObjects from MySQL (page={}, size={})", content.size(), resolvedPage, resolvedSize);
+        logger.debug("Fetched {} Items from MySQL (page={}, size={})", content.size(), resolvedPage, resolvedSize);
         return new PageResult(content, resolvedTotal);
     }
 
     @Override
-    public Optional<CrudRecord> findById(String id) {
+    public Optional<ItemRecord> findById(String id) {
         try {
-            CrudRecord record = jdbcTemplate.queryForObject(
+            ItemRecord record = jdbcTemplate.queryForObject(
                 """
                     SELECT id, name, description, created_on, modified_on
                     FROM crud
@@ -69,13 +69,13 @@ public class MySqlAdapter implements CrudPort {
             );
             return Optional.ofNullable(record);
         } catch (EmptyResultDataAccessException ex) {
-            logger.debug("CrudObject {} not found in MySQL", id);
+            logger.debug("Item {} not found in MySQL", id);
             return Optional.empty();
         }
     }
 
     @Override
-    public CrudRecord save(CrudRecord record) {
+    public ItemRecord save(ItemRecord record) {
         String sql = """
             INSERT INTO crud (id, name, description, created_by, created_on, modified_by, modified_on)
             VALUES (:id, :name, :description, :createdBy, :createdOn, :modifiedBy, :modifiedOn)
@@ -91,18 +91,18 @@ public class MySqlAdapter implements CrudPort {
             .addValue("modifiedOn", toTimestamp(record.updatedAt()));
 
         jdbcTemplate.update(sql, parameters);
-        logger.debug("Inserted CrudObject {} into MySQL", record.id());
+        logger.debug("Inserted Item {} into MySQL", record.id());
         return findById(record.id())
-            .orElseThrow(() -> new IllegalStateException("Failed to load CrudObject after insert: " + record.id()));
+            .orElseThrow(() -> new IllegalStateException("Failed to load Item after insert: " + record.id()));
     }
 
-    private CrudRecord mapRecord(ResultSet rs) throws SQLException {
+    private ItemRecord mapRecord(ResultSet rs) throws SQLException {
         OffsetDateTime createdAt = toOffsetDateTime(rs.getTimestamp("created_on"));
         OffsetDateTime updatedAt = toOffsetDateTime(rs.getTimestamp("modified_on"));
         if (updatedAt == null) {
             updatedAt = createdAt;
         }
-        return new CrudRecord(
+        return new ItemRecord(
             rs.getString("id"),
             rs.getString("name"),
             rs.getString("description"),
