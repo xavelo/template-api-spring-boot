@@ -1,6 +1,6 @@
-package com.xavelo.template.adapter.out.http.joke;
+package com.xavelo.template.adapter.out.http.external;
 
-import com.xavelo.template.application.domain.Joke;
+import com.xavelo.template.application.domain.ExternalApiResult;
 import com.xavelo.template.configuration.ChuckNorrisProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,32 +13,30 @@ import org.springframework.test.web.client.response.MockRestResponseCreators;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RestClientTest(ChuckNorrisJokeAdapter.class)
+@RestClientTest(ChuckNorrisExternalApiAdapter.class)
 @TestPropertySource(properties = "chucknorris.base-url=https://api.chucknorris.io")
 @Import(ChuckNorrisProperties.class)
-class ChuckNorrisJokeAdapterTest {
+class ChuckNorrisExternalApiAdapterTest {
 
     @Autowired
-    private ChuckNorrisJokeAdapter jokeAdapter;
+    private ChuckNorrisExternalApiAdapter externalApiAdapter;
 
     @Autowired
     private MockRestServiceServer mockServer;
 
     @Test
-    void getRandomJokeReturnsJoke() {
+    void callExternalApiReturnsResult() {
         mockServer.expect(MockRestRequestMatchers.requestTo("/jokes/random"))
                 .andRespond(MockRestResponseCreators.withSuccess("""
-                        {
-                          \"id\": \"test-id\",
-                          \"value\": \"A hilarious joke\",
-                          \"url\": \"https://api.chucknorris.io/jokes/test-id\"
-                        }
+                        {"id": "test-id",
+                         "value": "A hilarious fact",
+                         "url": "https://api.chucknorris.io/jokes/test-id"}
                         """, org.springframework.http.MediaType.APPLICATION_JSON));
 
-        Joke joke = jokeAdapter.getRandomJoke();
+        ExternalApiResult result = externalApiAdapter.callExternalApi();
 
-        assertThat(joke.id()).isEqualTo("test-id");
-        assertThat(joke.value()).isEqualTo("A hilarious joke");
-        assertThat(joke.url()).isEqualTo("https://api.chucknorris.io/jokes/test-id");
+        assertThat(result.id()).isEqualTo("test-id");
+        assertThat(result.value()).isEqualTo("A hilarious fact");
+        assertThat(result.url()).isEqualTo("https://api.chucknorris.io/jokes/test-id");
     }
 }
