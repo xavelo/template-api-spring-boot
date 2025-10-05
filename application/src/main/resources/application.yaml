@@ -31,3 +31,6 @@ management:
       exposure:
         include: "health,info,metrics"
 
+chucknorris:
+  base-url: https://api.chucknorris.io
+
