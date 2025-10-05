@@ -15,24 +15,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableConfigurationProperties(ItemEventConsumerProperties.class)
+@EnableConfigurationProperties(EventConsumerProperties.class)
 public class KafkaConsumerConfig {
 
     @Bean
     public ConsumerFactory<String, String> itemEventConsumerFactory(
         KafkaProperties kafkaProperties,
-        ItemEventConsumerProperties itemEventConsumerProperties
+        EventConsumerProperties eventConsumerProperties
     ) {
         Map<String, Object> consumerProperties = new HashMap<>(kafkaProperties.buildConsumerProperties());
-        consumerProperties.put(ConsumerConfig.GROUP_ID_CONFIG, itemEventConsumerProperties.getGroupId());
+        consumerProperties.put(ConsumerConfig.GROUP_ID_CONFIG, eventConsumerProperties.getGroupId());
         return new DefaultKafkaConsumerFactory<>(consumerProperties);
     }
 
     @Bean
-    public DefaultErrorHandler itemEventErrorHandler(ItemEventConsumerProperties itemEventConsumerProperties) {
+    public DefaultErrorHandler itemEventErrorHandler(EventConsumerProperties eventConsumerProperties) {
         FixedBackOff backOff = new FixedBackOff(
-            itemEventConsumerProperties.getErrorBackoffIntervalMs(),
-            itemEventConsumerProperties.getErrorMaxRetries()
+            eventConsumerProperties.getErrorBackoffIntervalMs(),
+            eventConsumerProperties.getErrorMaxRetries()
         );
         return new DefaultErrorHandler(backOff);
     }
@@ -41,11 +41,11 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, String> itemEventKafkaListenerContainerFactory(
         ConsumerFactory<String, String> itemEventConsumerFactory,
         DefaultErrorHandler itemEventErrorHandler,
-        ItemEventConsumerProperties itemEventConsumerProperties
+        EventConsumerProperties eventConsumerProperties
     ) {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(itemEventConsumerFactory);
-        factory.setConcurrency(itemEventConsumerProperties.getConcurrency());
+        factory.setConcurrency(eventConsumerProperties.getConcurrency());
         factory.setCommonErrorHandler(itemEventErrorHandler);
         return factory;
     }

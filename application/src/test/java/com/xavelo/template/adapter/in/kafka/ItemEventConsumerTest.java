@@ -15,13 +15,13 @@ class ItemEventConsumerTest {
 
     private ProcessEventUseCase processEventUseCase;
     private ObjectMapper objectMapper;
-    private ItemEventConsumer itemEventConsumer;
+    private EventConsumer itemEventConsumer;
 
     @BeforeEach
     void setUp() {
         processEventUseCase = Mockito.mock(ProcessEventUseCase.class);
         objectMapper = new ObjectMapper();
-        itemEventConsumer = new ItemEventConsumer(objectMapper, processEventUseCase);
+        itemEventConsumer = new EventConsumer(objectMapper, processEventUseCase);
     }
 
     @Test

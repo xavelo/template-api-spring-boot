@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 /**
- * Application service that logs consumed events.
+ * Application service that processes consumed events.
  */
 @Service
 public class ProcessEventService implements ProcessEventUseCase {
@@ -16,6 +16,6 @@ public class ProcessEventService implements ProcessEventUseCase {
 
     @Override
     public void process(Event event) {
-        logger.info("Processing event {} with text: {}", event.id(), event.text());
+        logger.info("Processing event {} with text: {}", event.id(), event.payload());
     }
 }

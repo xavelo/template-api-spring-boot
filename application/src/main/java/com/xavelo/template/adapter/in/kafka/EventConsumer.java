@@ -9,6 +9,7 @@ import com.xavelo.template.application.port.in.ProcessEventUseCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import static com.xavelo.common.metrics.AdapterMetrics.Direction.IN;
@@ -16,14 +17,14 @@ import static com.xavelo.common.metrics.AdapterMetrics.Type.KAFKA;
 
 @Adapter
 @Component
-public class ItemEventConsumer {
+public class EventConsumer {
 
-    private static final Logger logger = LogManager.getLogger(ItemEventConsumer.class);
+    private static final Logger logger = LogManager.getLogger(EventConsumer.class);
 
     private final ObjectMapper objectMapper;
     private final ProcessEventUseCase processEventUseCase;
 
-    public ItemEventConsumer(ObjectMapper objectMapper, ProcessEventUseCase processEventUseCase) {
+    public EventConsumer(ObjectMapper objectMapper, ProcessEventUseCase processEventUseCase) {
         this.objectMapper = objectMapper;
         this.processEventUseCase = processEventUseCase;
     }
@@ -36,7 +37,6 @@ public class ItemEventConsumer {
     public void consume(String payload) {
         try {
             Event event = objectMapper.readValue(payload, Event.class);
-            logger.info("Consumed event {} with text: {}", event.id(), event.text());
             processEventUseCase.process(event);
         } catch (JsonProcessingException e) {
             logger.error("Unable to deserialize event payload", e);
