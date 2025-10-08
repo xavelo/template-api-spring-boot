@@ -22,7 +22,6 @@ public class ExternalApiResilienceConfiguration {
         return factory -> factory.configure(builder -> builder
                         .circuitBreakerConfig(circuitBreakerConfig())
                         .timeLimiterConfig(timeLimiterConfig())
-                        .retryConfig(retryConfig())
                         .build(),
                 EXTERNAL_API_RESILIENCE_ID);
     }
