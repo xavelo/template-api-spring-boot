@@ -65,3 +65,7 @@ kafka:
     concurrency: 1
     error-backoff-interval-ms: 0
     error-max-retries: 0
+
+external:
+  api:
+    base-url: http://localhost

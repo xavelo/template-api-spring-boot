@@ -3,7 +3,6 @@ package com.xavelo.template.configuration;
 import com.xavelo.template.application.exception.ExternalApiUnavailableException;
 import feign.FeignException;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
-import io.github.resilience4j.retry.RetryConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
@@ -22,7 +21,6 @@ public class ExternalApiResilienceConfiguration {
         return factory -> factory.configure(builder -> builder
                         .circuitBreakerConfig(circuitBreakerConfig())
                         .timeLimiterConfig(timeLimiterConfig())
-                        .retryConfig(retryConfig())
                         .build(),
                 EXTERNAL_API_RESILIENCE_ID);
     }
@@ -46,11 +44,4 @@ public class ExternalApiResilienceConfiguration {
                 .build();
     }
 
-    private RetryConfig retryConfig() {
-        return RetryConfig.custom()
-                .maxAttempts(3)
-                .waitDuration(Duration.ofMillis(500))
-                .retryExceptions(FeignException.class, ExternalApiUnavailableException.class)
-                .build();
-    }
 }
