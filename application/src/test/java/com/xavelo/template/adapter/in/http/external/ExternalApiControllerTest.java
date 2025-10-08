@@ -25,15 +25,14 @@ class ExternalApiControllerTest {
 
     @Test
     void randomExternalApiCallReturnsPayload() throws Exception {
-        given(callExternalApiUseCase.callExternalApi())
-                .willReturn(new ExternalApiResult("test-id", "A random fact", "https://api.chucknorris.io/jokes/test-id"));
+        given(callExternalApiUseCase.callExternalApi(200))
+                .willReturn(new ExternalApiResult("200", 200, "200 OK", "https://httpstat.us/200"));
 
         mockMvc.perform(get("/api/external/random").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("test-id"))
-                .andExpect(jsonPath("$.value").value("A random fact"))
-                .andExpect(jsonPath("$.url").value("https://api.chucknorris.io/jokes/test-id"))
-                .andExpect(jsonPath("$.requestedCategory").value("general"))
-                .andExpect(jsonPath("$.category").value("general"));
+                .andExpect(jsonPath("$.id").value("200"))
+                .andExpect(jsonPath("$.status").value(200))
+                .andExpect(jsonPath("$.value").value("200 OK"))
+                .andExpect(jsonPath("$.url").value("https://httpstat.us/200"));
     }
 }

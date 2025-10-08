@@ -30,9 +30,6 @@ management:
       exposure:
         include: "health,info,metrics"
 
-chucknorris:
-  base-url: https://api.chucknorris.io
-
 kafka:
   consumer:
     topic: test-topic

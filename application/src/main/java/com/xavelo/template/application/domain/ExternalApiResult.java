@@ -1,4 +1,4 @@
 package com.xavelo.template.application.domain;
 
-public record ExternalApiResult(String id, String value, String url) {
+public record ExternalApiResult(String id, int status, String value, String url) {
 }

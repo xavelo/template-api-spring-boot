@@ -20,7 +20,7 @@ paths:
         Invokes the configured third-party API to retrieve a random piece of information and
         returns it in a consistent structure.
       parameters:
-        - $ref: '#/components/parameters/CategoryQuery'
+        - $ref: '#/components/parameters/StatusQuery'
       responses:
         '200':
           description: External API response successfully retrieved.
@@ -42,30 +42,34 @@ paths:
                 $ref: '#/components/schemas/ExternalApiError'
 components:
   parameters:
-    CategoryQuery:
-      name: category
+    StatusQuery:
+      name: status
       in: query
-      description: Optional category used to contextualize the request.
+      description: Optional HTTP status code to request from the upstream service.
       required: false
       schema:
-        type: string
-        minLength: 1
-        maxLength: 64
+        type: integer
+        format: int32
+        minimum: 100
+        maximum: 599
   schemas:
     ExternalApiResponse:
       type: object
       description: Normalized payload returned after calling the external API.
       required:
         - id
+        - status
         - value
         - url
-        - category
-        - requestedCategory
         - retrievedAt
       properties:
         id:
           type: string
           description: Identifier supplied by the external API.
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code returned by the external API.
         value:
           type: string
           description: Textual payload returned by the external API.
@@ -73,12 +77,6 @@ components:
           type: string
           format: uri
           description: Direct link to the resource in the external API.
-        category:
-          type: string
-          description: Category derived from the external API response.
-        requestedCategory:
-          type: string
-          description: Category requested by the caller or the default category when none was provided.
         retrievedAt:
           type: string
           format: date-time
