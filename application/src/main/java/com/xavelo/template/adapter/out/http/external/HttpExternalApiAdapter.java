@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 @Adapter
 public class HttpExternalApiAdapter implements CallExternalApiPort {
 
-    private static final String BASE_URL = "https://httpstat.us";
+    private static final String BASE_URL = "https://httpbin.org/status";
 
     private static final ConcurrentMap<Integer, ExternalApiResult> RESPONSE_CACHE = new ConcurrentHashMap<>();
 
@@ -87,11 +87,11 @@ public class HttpExternalApiAdapter implements CallExternalApiPort {
         try {
             ResponseEntity<String> response = restTemplate.getForEntity("/{status}", String.class, status);
             if (!response.getStatusCode().is2xxSuccessful()) {
-                throw new RestClientException("httpstat.us returned non-success status: " + response.getStatusCode());
+                throw new RestClientException("httpbin.org returned non-success status: " + response.getStatusCode());
             }
             String body = response.getBody();
             if (body == null) {
-                throw new RestClientException("httpstat.us returned an empty body");
+                throw new RestClientException("httpbin.org returned an empty body");
             }
             int statusCode = response.getStatusCode().value();
             String requestUrl = BASE_URL + "/" + status;

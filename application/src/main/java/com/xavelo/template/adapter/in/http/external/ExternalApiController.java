@@ -19,7 +19,6 @@ import java.time.ZoneOffset;
 
 @Adapter
 @RestController
-@RequestMapping("/api/external")
 public class ExternalApiController implements ExternalApiApi {
 
     private static final int DEFAULT_STATUS = 200;
@@ -31,7 +30,6 @@ public class ExternalApiController implements ExternalApiApi {
     }
 
     @Override
-    @GetMapping("/random")
     @CountAdapterInvocation(
             name = "external-api-random",
             direction = AdapterMetrics.Direction.IN,
