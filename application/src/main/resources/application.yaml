@@ -24,11 +24,43 @@ spring:
   kafka:
     bootstrap-servers: my-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092
 
+resilience4j:
+  circuitbreaker:
+    aspect-order: 200
+    instances:
+      externalApi:
+        register-health-indicator: true
+        sliding-window-type: count_based
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 2
+        automatic-transition-from-open-to-half-open-enabled: true
+  retry:
+    aspect-order: 100
+    instances:
+      externalApi:
+        max-attempts: 3
+        wait-duration: 500ms
+        retry-exceptions:
+          - org.springframework.web.client.RestClientException
+  timelimiter:
+    instances:
+      externalApi:
+        timeout-duration: 3s
+
 management:
   endpoints:
     web:
       exposure:
-        include: "health,info,metrics"
+        include: "health,info,metrics,prometheus,circuitbreakerevents"
+  endpoint:
+    health:
+      show-details: when_authorized
+  health:
+    circuitbreakers:
+      enabled: true
 
 kafka:
   consumer:
