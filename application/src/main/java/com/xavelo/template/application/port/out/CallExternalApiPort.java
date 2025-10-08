@@ -4,5 +4,5 @@ import com.xavelo.template.application.domain.ExternalApiResult;
 
 public interface CallExternalApiPort {
 
-    ExternalApiResult callExternalApi();
+    ExternalApiResult callExternalApi(int status);
 }

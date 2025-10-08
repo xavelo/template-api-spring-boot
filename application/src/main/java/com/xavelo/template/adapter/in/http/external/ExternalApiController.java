@@ -22,7 +22,7 @@ import java.time.ZoneOffset;
 @RequestMapping("/api/external")
 public class ExternalApiController implements ExternalApiApi {
 
-    private static final String DEFAULT_CATEGORY = "general";
+    private static final int DEFAULT_STATUS = 200;
 
     private final CallExternalApiUseCase callExternalApiUseCase;
 
@@ -37,24 +37,20 @@ public class ExternalApiController implements ExternalApiApi {
             direction = AdapterMetrics.Direction.IN,
             type = AdapterMetrics.Type.HTTP)
     public ResponseEntity<ExternalApiResponseDto> callExternalApi(
-            @RequestParam(value = "category", required = false) String category) {
-        ExternalApiResult result = callExternalApiUseCase.callExternalApi();
-        ExternalApiResponseDto responseDto = mapToDto(result, category);
+            @RequestParam(value = "status", required = false) Integer status) {
+        int requestedStatus = (status == null) ? DEFAULT_STATUS : status;
+        ExternalApiResult result = callExternalApiUseCase.callExternalApi(requestedStatus);
+        ExternalApiResponseDto responseDto = mapToDto(result);
         return ResponseEntity.ok(responseDto);
     }
 
-    private ExternalApiResponseDto mapToDto(ExternalApiResult result, String requestedCategory) {
+    private ExternalApiResponseDto mapToDto(ExternalApiResult result) {
         OffsetDateTime timestamp = OffsetDateTime.now(ZoneOffset.UTC);
-        String category = (requestedCategory == null || requestedCategory.isBlank())
-                ? DEFAULT_CATEGORY
-                : requestedCategory.trim();
-
         return new ExternalApiResponseDto()
                 .id(result.id())
+                .status(result.status())
                 .value(result.value())
                 .url(URI.create(result.url()))
-                .category(category)
-                .requestedCategory(category)
                 .retrievedAt(timestamp);
     }
 }

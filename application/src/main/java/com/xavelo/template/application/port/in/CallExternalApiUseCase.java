@@ -4,5 +4,5 @@ import com.xavelo.template.application.domain.ExternalApiResult;
 
 public interface CallExternalApiUseCase {
 
-    ExternalApiResult callExternalApi();
+    ExternalApiResult callExternalApi(int status);
 }

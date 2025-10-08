@@ -15,7 +15,7 @@ public class ExternalApiService implements CallExternalApiUseCase {
     }
 
     @Override
-    public ExternalApiResult callExternalApi() {
-        return callExternalApiPort.callExternalApi();
+    public ExternalApiResult callExternalApi(int status) {
+        return callExternalApiPort.callExternalApi(status);
     }
 }
