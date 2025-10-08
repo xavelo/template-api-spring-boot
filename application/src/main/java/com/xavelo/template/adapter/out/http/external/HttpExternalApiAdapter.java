@@ -27,7 +27,7 @@ public class HttpExternalApiAdapter implements CallExternalApiPort {
 
     @Override
     @CountAdapterInvocation(
-            name = "httpstatus-fetch",
+            name = "call-external-api",
             direction = AdapterMetrics.Direction.OUT,
             type = AdapterMetrics.Type.HTTP)
     public ExternalApiResult callExternalApi(int status) {
@@ -51,9 +51,10 @@ public class HttpExternalApiAdapter implements CallExternalApiPort {
     private ExternalApiResult executeHttpCall(int status) {
         ResponseEntity<String> response = externalApiClient.fetchStatus(status);
         String body = response.getBody();
+        /*
         if (body == null) {
             throw new ExternalApiUnavailableException(status, new IllegalStateException("External API returned an empty body"));
-        }
+        }*/
         int statusCode = response.getStatusCode().value();
         String requestUrl = buildRequestUrl(status);
         return new ExternalApiResult(String.valueOf(statusCode), statusCode, body, requestUrl);
