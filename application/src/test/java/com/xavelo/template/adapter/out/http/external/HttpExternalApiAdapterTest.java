@@ -62,7 +62,7 @@ class HttpExternalApiAdapterTest {
         assertThat(result.id()).isEqualTo("200");
         assertThat(result.status()).isEqualTo(200);
         assertThat(result.value()).isEqualTo("200 OK");
-        assertThat(result.url()).isEqualTo("https://httpstat.us/200");
+        assertThat(result.url()).isEqualTo("https://httpbin.org/status/200");
         mockServer.verify();
     }
 
