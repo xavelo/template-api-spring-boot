@@ -11,6 +11,11 @@ spring:
           issuer-uri: https://http://192.168.1.139:32080/realms/xavelo
           jwk-set-uri: https://http://192.168.1.139:32080/realms/xavelo/protocol/openid-connect/certs
 
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
   datasource:
     url: jdbc:mysql://template-mysql.mysql.svc.cluster.local:3306/template-app
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -24,31 +29,20 @@ spring:
   kafka:
     bootstrap-servers: my-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092
 
-resilience4j:
-  circuitbreaker:
-    aspect-order: 200
-    instances:
-      externalApi:
-        register-health-indicator: true
-        sliding-window-type: count_based
-        sliding-window-size: 10
-        minimum-number-of-calls: 5
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 10s
-        permitted-number-of-calls-in-half-open-state: 2
-        automatic-transition-from-open-to-half-open-enabled: true
-  retry:
-    aspect-order: 100
-    instances:
-      externalApi:
-        max-attempts: 3
-        wait-duration: 500ms
-        retry-exceptions:
-          - org.springframework.web.client.RestClientException
-  timelimiter:
-    instances:
-      externalApi:
-        timeout-duration: 3s
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 3000
+        readTimeout: 3000
+
+external:
+  api:
+    base-url: https://httpbin.org/status
 
 management:
   endpoints:
