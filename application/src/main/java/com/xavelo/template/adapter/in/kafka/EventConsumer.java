@@ -34,7 +34,7 @@ public class EventConsumer {
         topics = "${kafka.consumer.topic}",
         containerFactory = "testTopicEventKafkaListenerContainerFactory"
     )
-    @CountAdapterInvocation(name = "item-events", direction = IN, type = KAFKA)
+    @CountAdapterInvocation(name = "test-topic-event", direction = IN, type = KAFKA)
     public void consume(ConsumerRecord<String, String> record, Acknowledgment acknowledgment) {
         try {
             Event event = objectMapper.readValue(record.value(), Event.class);

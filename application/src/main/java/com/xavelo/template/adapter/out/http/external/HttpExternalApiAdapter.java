@@ -16,13 +16,13 @@ import org.springframework.http.client.ClientHttpResponse;
 import java.io.IOException;
 
 @Adapter
-public class HttpStatusExternalApiAdapter implements CallExternalApiPort {
+public class HttpExternalApiAdapter implements CallExternalApiPort {
 
     private static final String BASE_URL = "https://httpstat.us";
 
     private final RestTemplate restTemplate;
 
-    public HttpStatusExternalApiAdapter(RestTemplateBuilder restTemplateBuilder) {
+    public HttpExternalApiAdapter(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder
                 .errorHandler(noOpErrorHandler())
                 .rootUri(BASE_URL)

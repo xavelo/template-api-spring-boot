@@ -12,11 +12,11 @@ import org.springframework.test.web.client.response.MockRestResponseCreators;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RestClientTest(HttpStatusExternalApiAdapter.class)
-class HttpStatusExternalApiAdapterTest {
+@RestClientTest(HttpExternalApiAdapter.class)
+class HttpExternalApiAdapterTest {
 
     @Autowired
-    private HttpStatusExternalApiAdapter externalApiAdapter;
+    private HttpExternalApiAdapter externalApiAdapter;
 
     @Autowired
     private MockRestServiceServer mockServer;
