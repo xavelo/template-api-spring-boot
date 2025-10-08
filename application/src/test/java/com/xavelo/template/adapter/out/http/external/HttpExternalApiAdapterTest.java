@@ -89,7 +89,7 @@ class HttpExternalApiAdapterTest {
     }
 
     @Test
-    void callExternalApiThrowsDomainExceptionWhenCacheMissing() {
+    void callExternalApiThrowsDomainExceptionWhenCacheMissing() throws InterruptedException {
         mockWebServer.enqueue(new MockResponse().setResponseCode(503));
 
         assertThatThrownBy(() -> externalApiAdapter.callExternalApi(503))
