@@ -19,7 +19,39 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,info,metrics"
+        include: "health,info,metrics,circuitbreakerevents"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+resilience4j:
+  circuitbreaker:
+    aspect-order: 200
+    instances:
+      externalApi:
+        register-health-indicator: true
+        sliding-window-type: count_based
+        sliding-window-size: 4
+        minimum-number-of-calls: 2
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 1s
+        permitted-number-of-calls-in-half-open-state: 1
+        automatic-transition-from-open-to-half-open-enabled: true
+  retry:
+    aspect-order: 100
+    instances:
+      externalApi:
+        max-attempts: 2
+        wait-duration: 10ms
+        retry-exceptions:
+          - org.springframework.web.client.RestClientException
+  timelimiter:
+    instances:
+      externalApi:
+        timeout-duration: 1s
 
 spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration,org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
 logging:
