@@ -1,13 +1,15 @@
 package com.xavelo.template.configuration;
 
-import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
-import io.github.resilience4j.retry.Retry;
-import io.github.resilience4j.retry.RetryRegistry;
-import io.github.resilience4j.timelimiter.TimeLimiter;
-import io.github.resilience4j.timelimiter.TimeLimiterRegistry;
+import com.xavelo.template.application.exception.ExternalApiUnavailableException;
+import feign.FeignException;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.timelimiter.TimeLimiterConfig;
+import org.springframework.cloud.client.circuitbreaker.Customizer;
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.time.Duration;
 
 @Configuration
 public class ExternalApiResilienceConfiguration {
@@ -15,17 +17,31 @@ public class ExternalApiResilienceConfiguration {
     public static final String EXTERNAL_API_RESILIENCE_ID = "externalApi";
 
     @Bean
-    public CircuitBreaker externalApiCircuitBreaker(CircuitBreakerRegistry circuitBreakerRegistry) {
-        return circuitBreakerRegistry.circuitBreaker(EXTERNAL_API_RESILIENCE_ID);
+    public Customizer<Resilience4JCircuitBreakerFactory> externalApiCircuitBreakerCustomizer() {
+        return factory -> factory.configure(builder -> builder
+                        .circuitBreakerConfig(circuitBreakerConfig())
+                        .timeLimiterConfig(timeLimiterConfig())
+                        .build(),
+                EXTERNAL_API_RESILIENCE_ID);
     }
 
-    @Bean
-    public Retry externalApiRetry(RetryRegistry retryRegistry) {
-        return retryRegistry.retry(EXTERNAL_API_RESILIENCE_ID);
+    private CircuitBreakerConfig circuitBreakerConfig() {
+        return CircuitBreakerConfig.custom()
+                .slidingWindowType(CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
+                .slidingWindowSize(10)
+                .minimumNumberOfCalls(5)
+                .failureRateThreshold(50)
+                .waitDurationInOpenState(Duration.ofSeconds(10))
+                .permittedNumberOfCallsInHalfOpenState(2)
+                .automaticTransitionFromOpenToHalfOpenEnabled(true)
+                .recordExceptions(FeignException.class, ExternalApiUnavailableException.class)
+                .build();
     }
 
-    @Bean
-    public TimeLimiter externalApiTimeLimiter(TimeLimiterRegistry timeLimiterRegistry) {
-        return timeLimiterRegistry.timeLimiter(EXTERNAL_API_RESILIENCE_ID);
+    private TimeLimiterConfig timeLimiterConfig() {
+        return TimeLimiterConfig.custom()
+                .timeoutDuration(Duration.ofSeconds(3))
+                .build();
     }
+
 }
